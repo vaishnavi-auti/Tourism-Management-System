@@ -1,0 +1,735 @@
+/* =====================================================
+   TOURISM MANAGEMENT SYSTEM
+   MAIN STYLE SHEET
+===================================================== */
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =====================================================
+   BODY
+===================================================== */
+
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background: #fff;
+    line-height: 1.6;
+}
+
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+.navbar {
+    width: 100%;
+    height: 75px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 6%;
+
+    background: rgba(255, 255, 255, 0.98);
+
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.12);
+
+    position: relative;
+    z-index: 1000;
+}
+
+
+/* Logo */
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #222;
+    letter-spacing: 0.5px;
+}
+
+.logo span {
+    color: #009688;
+}
+
+
+/* Navigation Links */
+
+.nav-links {
+    display: flex;
+    align-items: center;
+
+    list-style: none;
+
+    gap: 8px;
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
+}
+
+
+/* Navigation Anchor */
+
+.nav-links a {
+    position: relative;
+
+    display: block;
+
+    padding: 10px 14px;
+
+    text-decoration: none;
+
+    color: #333;
+
+    font-size: 16px;
+    font-weight: 500;
+
+    transition: all 0.3s ease;
+}
+
+
+/* Link Hover */
+
+.nav-links a:hover {
+    color: #009688;
+}
+
+
+/* Underline Hover Effect */
+
+.nav-links a::after {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    bottom: 2px;
+
+    width: 0;
+    height: 2px;
+
+    background: #009688;
+
+    transform: translateX(-50%);
+
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 70%;
+}
+
+
+/* =====================================================
+   LOGIN BUTTON
+===================================================== */
+
+.nav-links .login-btn {
+    margin-left: 8px;
+
+    padding: 10px 22px;
+
+    background: #009688;
+
+    color: white !important;
+
+    border-radius: 25px;
+
+    font-weight: bold;
+
+    transition: all 0.3s ease;
+}
+
+
+/* Remove Underline */
+
+.nav-links .login-btn::after {
+    display: none;
+}
+
+
+/* Login Hover */
+
+.nav-links .login-btn:hover {
+    background: #00796b;
+
+    color: white !important;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 5px 12px rgba(0, 150, 136, 0.3);
+}
+
+
+/* =====================================================
+   WELCOME USER
+===================================================== */
+
+.welcome {
+    display: block;
+
+    padding: 10px 12px;
+
+    color: #009688;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    white-space: nowrap;
+}
+
+
+/* =====================================================
+   LOGOUT BUTTON
+===================================================== */
+
+.nav-links .logout-btn {
+    padding: 10px 20px;
+
+    background: #e53935;
+
+    color: white !important;
+
+    border-radius: 25px;
+
+    font-weight: bold;
+
+    transition: all 0.3s ease;
+}
+
+
+/* Remove Underline */
+
+.nav-links .logout-btn::after {
+    display: none;
+}
+
+
+/* Logout Hover */
+
+.nav-links .logout-btn:hover {
+    background: #c62828;
+
+    color: white !important;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 5px 12px rgba(229, 57, 53, 0.3);
+}
+
+
+/* =====================================================
+   HERO SECTION
+===================================================== */
+
+.hero {
+    height: 550px;
+
+    background:
+        linear-gradient(
+            rgba(0, 0, 0, 0.45),
+            rgba(0, 0, 0, 0.45)
+        ),
+        url("../images/tourism.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+}
+
+
+/* Hero Content */
+
+.hero-content {
+    color: white;
+
+    max-width: 800px;
+
+    padding: 20px;
+}
+
+
+/* Hero Heading */
+
+.hero-content h1 {
+    font-size: 58px;
+
+    font-weight: bold;
+
+    margin-bottom: 20px;
+
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+
+/* Hero Paragraph */
+
+.hero-content p {
+    font-size: 20px;
+
+    line-height: 1.6;
+
+    margin-bottom: 30px;
+
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+
+/* =====================================================
+   GENERAL BUTTON
+===================================================== */
+
+.btn {
+    display: inline-block;
+
+    padding: 13px 28px;
+
+    background: #009688;
+
+    color: white;
+
+    text-decoration: none;
+
+    border-radius: 6px;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background: #00796b;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 5px 15px rgba(0, 150, 136, 0.3);
+}
+
+
+/* =====================================================
+   DESTINATIONS SECTION
+===================================================== */
+
+.destinations {
+    padding: 70px 7%;
+
+    text-align: center;
+
+    background: white;
+}
+
+
+/* Section Heading */
+
+.destinations h2,
+.why-us h2 {
+    font-size: 36px;
+
+    color: #222;
+
+    margin-bottom: 10px;
+}
+
+
+/* Small Line Under Heading */
+
+.destinations h2::after,
+.why-us h2::after {
+    content: "";
+
+    display: block;
+
+    width: 60px;
+
+    height: 3px;
+
+    background: #009688;
+
+    margin: 12px auto 15px;
+}
+
+
+/* Section Text */
+
+.section-text {
+    color: #777;
+
+    font-size: 16px;
+
+    margin-bottom: 40px;
+}
+
+
+/* =====================================================
+   PLACE CARDS
+===================================================== */
+
+.place-container {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 30px;
+
+    flex-wrap: wrap;
+}
+
+
+/* Card */
+
+.place-card {
+    width: 310px;
+
+    background: white;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+
+    transition: all 0.3s ease;
+
+    padding-bottom: 25px;
+}
+
+
+/* Card Hover */
+
+.place-card:hover {
+    transform: translateY(-8px);
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+}
+
+
+/* Place Image */
+
+.place-image {
+    width: 100%;
+
+    height: 180px;
+
+    background: #e0f2f1;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    font-size: 65px;
+
+    overflow: hidden;
+}
+
+
+/* Place Heading */
+
+.place-card h3 {
+    font-size: 25px;
+
+    color: #222;
+
+    margin: 20px 15px 10px;
+}
+
+
+/* Place Paragraph */
+
+.place-card p {
+    color: #666;
+
+    font-size: 15px;
+
+    padding: 0 20px;
+
+    margin-bottom: 18px;
+}
+
+
+/* Explore Link */
+
+.place-card a {
+    display: inline-block;
+
+    text-decoration: none;
+
+    color: white;
+
+    background: #009688;
+
+    padding: 9px 20px;
+
+    border-radius: 5px;
+
+    font-weight: bold;
+
+    transition: 0.3s ease;
+}
+
+.place-card a:hover {
+    background: #00796b;
+}
+
+
+/* =====================================================
+   WHY CHOOSE US
+===================================================== */
+
+.why-us {
+    padding: 70px 7%;
+
+    background: #f5f8f8;
+
+    text-align: center;
+}
+
+
+/* Features */
+
+.features {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 30px;
+
+    margin-top: 40px;
+
+    flex-wrap: wrap;
+}
+
+
+/* Feature Card */
+
+.feature {
+    width: 310px;
+
+    background: white;
+
+    padding: 30px 25px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+
+    transition: all 0.3s ease;
+}
+
+
+/* Feature Hover */
+
+.feature:hover {
+    transform: translateY(-6px);
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.13);
+}
+
+
+/* Feature Heading */
+
+.feature h3 {
+    color: #222;
+
+    font-size: 20px;
+
+    margin-bottom: 12px;
+}
+
+
+/* Feature Paragraph */
+
+.feature p {
+    color: #666;
+
+    font-size: 15px;
+
+    line-height: 1.6;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+    background: #222;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 22px;
+
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   RESPONSIVE DESIGN
+===================================================== */
+
+@media (max-width: 1000px) {
+
+    .navbar {
+        padding: 0 4%;
+    }
+
+    .nav-links {
+        gap: 2px;
+    }
+
+    .nav-links a {
+        padding: 9px 9px;
+
+        font-size: 14px;
+    }
+
+    .welcome {
+        font-size: 13px;
+
+        padding: 8px;
+    }
+
+    .hero-content h1 {
+        font-size: 48px;
+    }
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .navbar {
+        height: auto;
+
+        flex-direction: column;
+
+        padding: 18px 5%;
+
+        gap: 15px;
+    }
+
+    .nav-links {
+        width: 100%;
+
+        justify-content: center;
+
+        flex-wrap: wrap;
+    }
+
+    .nav-links a {
+        font-size: 14px;
+
+        padding: 8px 10px;
+    }
+
+    .hero {
+        height: 500px;
+    }
+
+    .hero-content h1 {
+        font-size: 42px;
+    }
+
+    .hero-content p {
+        font-size: 18px;
+    }
+
+    .destinations h2,
+    .why-us h2 {
+        font-size: 30px;
+    }
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 500px) {
+
+    .logo {
+        font-size: 24px;
+    }
+
+    .nav-links {
+        gap: 0;
+    }
+
+    .nav-links a {
+        font-size: 13px;
+
+        padding: 7px 8px;
+    }
+
+    .nav-links .login-btn,
+    .nav-links .logout-btn {
+        padding: 8px 14px;
+
+        margin-left: 3px;
+    }
+
+    .welcome {
+        font-size: 12px;
+
+        padding: 7px 5px;
+    }
+
+    .hero {
+        height: 450px;
+    }
+
+    .hero-content h1 {
+        font-size: 35px;
+    }
+
+    .hero-content p {
+        font-size: 16px;
+    }
+
+    .btn {
+        padding: 11px 20px;
+
+        font-size: 14px;
+    }
+
+    .destinations,
+    .why-us {
+        padding: 50px 5%;
+    }
+
+    .place-card,
+    .feature {
+        width: 100%;
+
+        max-width: 350px;
+    }
+}
