@@ -1,0 +1,220 @@
+/* =========================================
+   ADMIN LOGIN PAGE
+========================================= */
+
+.admin-login-section {
+    min-height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 30px;
+
+    background:
+        linear-gradient(
+            rgba(0, 150, 136, 0.12),
+            rgba(0, 150, 136, 0.12)
+        ),
+        #f5fafa;
+}
+
+
+/* =========================================
+   LOGIN BOX
+========================================= */
+
+.admin-login-box {
+    width: 100%;
+
+    max-width: 430px;
+
+    background: white;
+
+    padding: 40px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.12);
+
+    text-align: center;
+}
+
+
+/* =========================================
+   ICON
+========================================= */
+
+.admin-icon {
+    width: 70px;
+
+    height: 70px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #e0f2f1;
+
+    font-size: 32px;
+}
+
+
+/* =========================================
+   HEADING
+========================================= */
+
+.admin-login-box h1 {
+    color: #222;
+
+    margin-bottom: 8px;
+
+    font-size: 30px;
+}
+
+.admin-login-box > p {
+    color: #777;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.admin-login-box form {
+    text-align: left;
+}
+
+.admin-login-box label {
+    display: block;
+
+    margin-top: 15px;
+
+    margin-bottom: 7px;
+
+    color: #333;
+
+    font-weight: bold;
+}
+
+.admin-login-box input {
+    width: 100%;
+
+    padding: 13px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 6px;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+.admin-login-box input:focus {
+    border-color: #009688;
+
+    box-shadow:
+        0 0 0 2px rgba(0, 150, 136, 0.1);
+}
+
+
+/* =========================================
+   LOGIN BUTTON
+========================================= */
+
+.admin-login-box button {
+    width: 100%;
+
+    height: 48px;
+
+    margin-top: 25px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background: #009688;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.admin-login-box button:hover {
+    background: #00796b;
+}
+
+
+/* =========================================
+   ERROR MESSAGE
+========================================= */
+
+.admin-message {
+    padding: 12px;
+
+    margin-bottom: 15px;
+
+    border-radius: 6px;
+
+    background: #ffebee;
+
+    color: #c62828;
+
+    font-weight: bold;
+}
+
+
+/* =========================================
+   BACK HOME
+========================================= */
+
+.back-home {
+    display: inline-block;
+
+    margin-top: 22px;
+
+    color: #009688;
+
+    text-decoration: none;
+
+    font-weight: bold;
+}
+
+.back-home:hover {
+    color: #00796b;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 500px) {
+
+    .admin-login-section {
+        padding: 20px;
+    }
+
+    .admin-login-box {
+        padding: 30px 22px;
+    }
+
+}
