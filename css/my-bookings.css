@@ -1,0 +1,87 @@
+.bookings-section {
+    min-height: calc(100vh - 140px);
+    padding: 50px 5%;
+    background: #f5fafa;
+}
+
+.bookings-container {
+    max-width: 1400px;
+    margin: auto;
+}
+
+.page-title {
+    margin-bottom: 30px;
+}
+
+.page-title h1 {
+    font-size: 35px;
+    color: #222;
+    margin-bottom: 8px;
+}
+
+.page-title p {
+    color: #777;
+}
+
+.table-box {
+    width: 100%;
+    background: white;
+    border-radius: 10px;
+    overflow-x: auto;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1200px;
+}
+
+thead {
+    background: #009688;
+    color: white;
+}
+
+th,
+td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    white-space: nowrap;
+}
+
+th {
+    font-size: 14px;
+}
+
+td {
+    color: #555;
+    font-size: 14px;
+}
+
+tbody tr:hover {
+    background: #f5fafa;
+}
+
+.no-data {
+    text-align: center;
+    padding: 30px;
+    color: #777;
+}
+
+.nav-links .active {
+    color: #009688;
+    font-weight: bold;
+}
+
+@media (max-width: 700px) {
+
+    .bookings-section {
+        padding: 35px 5%;
+    }
+
+    .page-title h1 {
+        font-size: 28px;
+    }
+
+}
