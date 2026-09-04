@@ -1,0 +1,167 @@
+/* Contact Messages Page */
+
+.messages-section {
+    padding: 50px 6%;
+    background: #f7fafa;
+    min-height: 75vh;
+}
+
+.messages-container {
+    max-width: 1300px;
+    margin: auto;
+}
+
+.page-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.page-title h1 {
+    font-size: 36px;
+    color: #222;
+    margin-bottom: 10px;
+}
+
+.page-title p {
+    color: #666;
+    font-size: 16px;
+}
+
+
+/* Table */
+
+.table-box {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 900px;
+}
+
+table th {
+    background: #009688;
+    color: white;
+    padding: 14px;
+    text-align: left;
+}
+
+table td {
+    padding: 13px;
+    border-bottom: 1px solid #eee;
+    color: #444;
+}
+
+table tr:hover {
+    background: #f5f5f5;
+}
+
+
+/* Message Column */
+
+.message-column {
+    max-width: 350px;
+    line-height: 1.5;
+}
+
+
+/* No Data */
+
+.no-data {
+    text-align: center;
+    padding: 25px;
+    color: #777;
+}
+
+
+/* Admin Navbar */
+
+.admin-navbar {
+    width: 100%;
+    min-height: 75px;
+    padding: 0 6%;
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.admin-logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #222;
+}
+
+.admin-logo span {
+    color: #009688;
+}
+
+.admin-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-right a {
+    text-decoration: none;
+    padding: 9px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.dashboard-btn {
+    background: #009688;
+    color: white !important;
+}
+
+.users-btn {
+    background: #2196f3;
+    color: white !important;
+}
+
+.bookings-btn {
+    background: #673ab7;
+    color: white !important;
+}
+
+.admin-logout {
+    background: #e53935;
+    color: white !important;
+}
+
+
+/* Responsive */
+
+@media (max-width: 900px) {
+
+    .admin-navbar {
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+    }
+
+    .admin-right {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .messages-section {
+        padding: 40px 4%;
+    }
+
+    .page-title h1 {
+        font-size: 30px;
+    }
+}
