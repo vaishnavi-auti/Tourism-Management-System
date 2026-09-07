@@ -18,6 +18,53 @@ if (isset($_POST['submit'])) {
 
     } else {
 
+        $sql = "INSERT INTO contact_messages (name, email, subject, message)
+                VALUES (?, ?, ?, ?)";
+
+        $stmt = mysqli_prepare($conn, $sql);
+
+        mysqli_stmt_bind_param(
+            $stmt,
+            "ssss",
+            $name,
+            $email,
+            $subject,
+            $message_text
+        );
+
+        if (mysqli_stmt_execute($stmt)) {
+
+            $message = "Thank you! Your message has been submitted successfully.";
+
+        } else {
+
+            $message = "Something went wrong. Please try again.";
+        }
+
+        mysqli_stmt_close($stmt);
+    }
+}
+?>
+<?php
+session_start();
+
+include "config/database.php";
+
+$message = "";
+
+if (isset($_POST['submit'])) {
+
+    $name = trim($_POST['name']);
+    $email = trim($_POST['email']);
+    $subject = trim($_POST['subject']);
+    $message_text = trim($_POST['message']);
+
+    if (empty($name) || empty($email) || empty($subject) || empty($message_text)) {
+
+        $message = "Please fill all fields.";
+
+    } else {
+
         // For now, display success message.
         // Contact messages can be stored in database later if required.
 
