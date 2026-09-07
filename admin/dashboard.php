@@ -55,6 +55,7 @@ $total_bookings = $booking_data['total_bookings'];
 
 <body>
 
+
 <!-- ================= NAVBAR ================= -->
 
 <header>
@@ -68,7 +69,8 @@ $total_bookings = $booking_data['total_bookings'];
         <div class="admin-right">
 
             <span>
-                Welcome, <?php echo htmlspecialchars($_SESSION['admin_name']); ?>
+                Welcome,
+                <?php echo htmlspecialchars($_SESSION['admin_name']); ?>
             </span>
 
             <a href="logout.php" class="admin-logout">
@@ -82,6 +84,7 @@ $total_bookings = $booking_data['total_bookings'];
 </header>
 
 
+
 <!-- ================= DASHBOARD ================= -->
 
 <section class="dashboard-section">
@@ -93,6 +96,7 @@ $total_bookings = $booking_data['total_bookings'];
         <p class="dashboard-subtitle">
             Manage your Tourism Management System
         </p>
+
 
 
         <!-- ================= STATISTICS ================= -->
@@ -121,6 +125,7 @@ $total_bookings = $booking_data['total_bookings'];
             </div>
 
 
+
             <!-- BOOKINGS -->
 
             <div class="stat-card">
@@ -143,6 +148,7 @@ $total_bookings = $booking_data['total_bookings'];
 
 
         </div>
+
 
 
         <!-- ================= MANAGEMENT ================= -->
@@ -172,6 +178,7 @@ $total_bookings = $booking_data['total_bookings'];
                 </a>
 
 
+
                 <!-- BOOKINGS -->
 
                 <a href="bookings.php" class="management-card">
@@ -189,21 +196,23 @@ $total_bookings = $booking_data['total_bookings'];
                 </a>
 
 
+
                 <!-- PACKAGES -->
 
-                <a href="../packages.php" class="management-card">
+                <a href="packages.php" class="management-card">
 
                     <div class="management-icon">
                         📦
                     </div>
 
-                    <h3>Tour Packages</h3>
+                    <h3>Manage Packages</h3>
 
                     <p>
-                        View available packages.
+                        Add, edit and delete tour packages.
                     </p>
 
                 </a>
+
 
 
                 <!-- PLACES -->
@@ -223,6 +232,24 @@ $total_bookings = $booking_data['total_bookings'];
                 </a>
 
 
+
+                <!-- CONTACT MESSAGES -->
+
+                <a href="contact-messages.php" class="management-card">
+
+                    <div class="management-icon">
+                        💬
+                    </div>
+
+                    <h3>Contact Messages</h3>
+
+                    <p>
+                        View messages submitted by users.
+                    </p>
+
+                </a>
+
+
             </div>
 
         </div>
@@ -230,6 +257,7 @@ $total_bookings = $booking_data['total_bookings'];
     </div>
 
 </section>
+
 
 
 <!-- ================= FOOTER ================= -->
@@ -241,6 +269,7 @@ $total_bookings = $booking_data['total_bookings'];
     </p>
 
 </footer>
+
 
 </body>
 
