@@ -12,6 +12,7 @@ if (!isset($_SESSION['admin_id'])) {
 
 }
 
+
 // Fetch all packages
 $query = mysqli_query(
     $conn,
@@ -37,7 +38,9 @@ $query = mysqli_query(
 
 </head>
 
+
 <body>
+
 
 <header>
 
@@ -46,6 +49,7 @@ $query = mysqli_query(
         <div class="admin-logo">
             Tourism<span>MS</span>
         </div>
+
 
         <div class="admin-right">
 
@@ -76,9 +80,13 @@ $query = mysqli_query(
 </header>
 
 
+
 <section class="packages-section">
 
     <div class="packages-container">
+
+
+        <!-- Page Header -->
 
         <div class="packages-header">
 
@@ -94,58 +102,95 @@ $query = mysqli_query(
 
             </div>
 
-            <a href="add-package.php" class="add-package-btn">
+
+            <a
+                href="add-package.php"
+                class="add-package-btn"
+            >
                 + Add Package
             </a>
 
         </div>
 
 
+
+        <!-- Package List -->
+
         <?php if (mysqli_num_rows($query) > 0) { ?>
+
 
             <div class="table-container">
 
                 <table class="packages-table">
 
+
                     <thead>
 
                         <tr>
 
-                            <th>ID</th>
+                            <th>
+                                ID
+                            </th>
 
-                            <th>Image</th>
+                            <th>
+                                Image
+                            </th>
 
-                            <th>Package Name</th>
+                            <th>
+                                Package Name
+                            </th>
 
-                            <th>Destination</th>
+                            <th>
+                                Destination
+                            </th>
 
-                            <th>Duration</th>
+                            <th>
+                                Duration
+                            </th>
 
-                            <th>Price</th>
+                            <th>
+                                Price
+                            </th>
 
-                            <th>Description</th>
+                            <th>
+                                Description
+                            </th>
 
-                            <th>Action</th>
+                            <th>
+                                Action
+                            </th>
 
                         </tr>
 
                     </thead>
 
 
+
                     <tbody>
+
 
                         <?php while ($package = mysqli_fetch_assoc($query)) { ?>
 
+
                             <tr>
 
+
+                                <!-- ID -->
+
                                 <td>
-                                    <?php echo $package['id']; ?>
+                                    <?php
+                                    echo $package['id'];
+                                    ?>
                                 </td>
 
+
+
+                                <!-- Image -->
 
                                 <td>
 
                                     <?php if (!empty($package['image'])) { ?>
+
 
                                         <img
                                             src="../images/<?php echo htmlspecialchars($package['image']); ?>"
@@ -153,43 +198,64 @@ $query = mysqli_query(
                                             alt="Package Image"
                                         >
 
+
                                     <?php } else { ?>
+
 
                                         <span class="no-image">
                                             No Image
                                         </span>
+
 
                                     <?php } ?>
 
                                 </td>
 
 
+
+                                <!-- Package Name -->
+
                                 <td>
+
                                     <?php
                                     echo htmlspecialchars(
                                         $package['package_name']
                                     );
                                     ?>
+
                                 </td>
 
 
+
+                                <!-- Destination -->
+
                                 <td>
+
                                     <?php
                                     echo htmlspecialchars(
                                         $package['destination']
                                     );
                                     ?>
+
                                 </td>
 
 
+
+                                <!-- Duration -->
+
                                 <td>
+
                                     <?php
                                     echo htmlspecialchars(
                                         $package['duration']
                                     );
                                     ?>
+
                                 </td>
 
+
+
+                                <!-- Price -->
 
                                 <td class="price">
 
@@ -202,6 +268,9 @@ $query = mysqli_query(
                                 </td>
 
 
+
+                                <!-- Description -->
+
                                 <td class="description">
 
                                     <?php
@@ -213,56 +282,77 @@ $query = mysqli_query(
                                 </td>
 
 
+
+                                <!-- Action -->
+
                                 <td>
 
                                     <div class="action-buttons">
 
-                                        
-                                        <a
-                                          href="edit-package.php?id=<?php echo $package['id']; ?>"
-                                           class="edit-btn"
-                                                >
-                                                  Edit
-                                              </a>
 
+                                        <!-- Edit Button -->
 
                                         <a
-                                            href="#"
+                                            href="edit-package.php?id=<?php echo $package['id']; ?>"
+                                            class="edit-btn"
+                                        >
+                                            Edit
+                                        </a>
+
+
+
+                                        <!-- Delete Button -->
+
+                                        <a
+                                            href="delete-package.php?id=<?php echo $package['id']; ?>"
                                             class="delete-btn"
+                                            onclick="return confirm('Are you sure you want to delete this package?');"
                                         >
                                             Delete
                                         </a>
+
 
                                     </div>
 
                                 </td>
 
+
                             </tr>
+
 
                         <?php } ?>
 
+
                     </tbody>
+
 
                 </table>
 
             </div>
 
+
         <?php } else { ?>
 
 
+            <!-- No Packages -->
+
             <div class="no-packages">
+
 
                 <div class="no-package-icon">
                     📦
                 </div>
 
+
                 <h2>
                     No Packages Found
                 </h2>
 
+
                 <p>
                     No tour packages have been added yet.
                 </p>
+
 
                 <a
                     href="add-package.php"
@@ -271,14 +361,17 @@ $query = mysqli_query(
                     + Add Your First Package
                 </a>
 
+
             </div>
 
 
         <?php } ?>
 
+
     </div>
 
 </section>
+
 
 
 <footer>
