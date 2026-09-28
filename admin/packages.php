@@ -217,12 +217,13 @@ $query = mysqli_query(
 
                                     <div class="action-buttons">
 
+                                        
                                         <a
-                                            href="#"
-                                            class="edit-btn"
-                                        >
-                                            Edit
-                                        </a>
+                                          href="edit-package.php?id=<?php echo $package['id']; ?>"
+                                           class="edit-btn"
+                                                >
+                                                  Edit
+                                              </a>
 
 
                                         <a

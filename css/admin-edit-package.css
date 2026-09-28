@@ -1,0 +1,236 @@
+/* =========================================
+   ADMIN EDIT PACKAGE PAGE
+========================================= */
+
+.edit-package-section {
+    min-height: 80vh;
+    padding: 50px 20px;
+    background: #f5f7fa;
+}
+
+
+.edit-package-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+
+/* =========================================
+   PAGE HEADING
+========================================= */
+
+.page-heading {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+
+.page-heading h1 {
+    margin: 0 0 10px;
+    font-size: 32px;
+    color: #222;
+}
+
+
+.page-heading p {
+    margin: 0;
+    color: #666;
+    font-size: 16px;
+}
+
+
+/* =========================================
+   FORM CARD
+========================================= */
+
+.edit-package-card {
+    background: white;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================================
+   FORM GROUP
+========================================= */
+
+.form-group {
+    margin-bottom: 22px;
+}
+
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+}
+
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+}
+
+
+.form-group textarea {
+    resize: vertical;
+}
+
+
+.form-group small {
+    display: block;
+    margin-top: 7px;
+    color: #777;
+    font-size: 13px;
+}
+
+
+/* =========================================
+   CURRENT IMAGE
+========================================= */
+
+.current-image {
+    margin-bottom: 25px;
+}
+
+
+.current-image p {
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #333;
+}
+
+
+.current-image img {
+    width: 180px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.form-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+
+.update-btn,
+.cancel-btn {
+    padding: 12px 22px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+}
+
+
+.update-btn {
+    background: #007bff;
+    color: white;
+}
+
+
+.update-btn:hover {
+    background: #0056b3;
+}
+
+
+.cancel-btn {
+    background: #6c757d;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+}
+
+
+.cancel-btn:hover {
+    background: #545b62;
+}
+
+
+/* =========================================
+   SUCCESS / ERROR MESSAGE
+========================================= */
+
+.success-message {
+    background: #d1e7dd;
+    color: #0f5132;
+    padding: 14px 18px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 600;
+}
+
+
+.error-message {
+    background: #f8d7da;
+    color: #842029;
+    padding: 14px 18px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+@media (max-width: 600px) {
+
+    .edit-package-section {
+        padding: 30px 15px;
+    }
+
+
+    .edit-package-card {
+        padding: 25px 20px;
+    }
+
+
+    .page-heading h1 {
+        font-size: 26px;
+    }
+
+
+    .form-buttons {
+        flex-direction: column;
+    }
+
+
+    .update-btn,
+    .cancel-btn {
+        width: 100%;
+        justify-content: center;
+        box-sizing: border-box;
+    }
+
+}
