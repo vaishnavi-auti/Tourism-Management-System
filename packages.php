@@ -1,5 +1,17 @@
 <?php
+
 session_start();
+
+include "config/database.php";
+
+
+// Fetch all packages from database
+
+$query = mysqli_query(
+    $conn,
+    "SELECT * FROM packages ORDER BY id DESC"
+);
+
 ?>
 
 <!DOCTYPE html>
@@ -14,11 +26,14 @@ session_start();
     <title>Tour Packages - Tourism Management System</title>
 
     <link rel="stylesheet" href="css/style.css">
+
     <link rel="stylesheet" href="css/packages.css">
 
 </head>
 
+
 <body>
+
 
 <!-- ================= NAVBAR ================= -->
 
@@ -30,39 +45,94 @@ session_start();
             Tourism<span>MS</span>
         </div>
 
+
         <ul class="nav-links">
 
-            <li><a href="index.php">Home</a></li>
-            <li><a href="about.php">About</a></li>
-            <li><a href="places.php">Places</a></li>
-            <li><a href="packages.php">Packages</a></li>
-            <li><a href="booking.php">Booking</a></li>
-            <li><a href="contact.php">Contact</a></li>
+            <li>
+                <a href="index.php">
+                    Home
+                </a>
+            </li>
+
+            <li>
+                <a href="about.php">
+                    About
+                </a>
+            </li>
+
+            <li>
+                <a href="places.php">
+                    Places
+                </a>
+            </li>
+
+            <li>
+                <a href="packages.php">
+                    Packages
+                </a>
+            </li>
+
+            <li>
+                <a href="booking.php">
+                    Booking
+                </a>
+            </li>
+
+            <li>
+                <a href="contact.php">
+                    Contact
+                </a>
+            </li>
+
 
             <?php if (isset($_SESSION['user_id'])) { ?>
 
-                <li>
-                    <span class="welcome">
-                        Welcome,
-                        <?php echo htmlspecialchars($_SESSION['user_name']); ?>
-                    </span>
-                </li>
 
                 <li>
-                    <a href="logout.php" class="logout-btn">
+
+                    <span class="welcome">
+
+                        Welcome,
+                        <?php
+                        echo htmlspecialchars(
+                            $_SESSION['user_name']
+                        );
+                        ?>
+
+                    </span>
+
+                </li>
+
+
+                <li>
+
+                    <a
+                        href="logout.php"
+                        class="logout-btn"
+                    >
                         Logout
                     </a>
+
                 </li>
+
 
             <?php } else { ?>
 
+
                 <li>
-                    <a href="login.php" class="login-btn">
+
+                    <a
+                        href="login.php"
+                        class="login-btn"
+                    >
                         Login
                     </a>
+
                 </li>
 
+
             <?php } ?>
+
 
         </ul>
 
@@ -71,13 +141,16 @@ session_start();
 </header>
 
 
+
 <!-- ================= HEADER ================= -->
 
 <section class="packages-header">
 
     <div>
 
-        <h1>Tour Packages</h1>
+        <h1>
+            Tour Packages
+        </h1>
 
         <p>
             Choose the perfect package for your next adventure.
@@ -88,251 +161,192 @@ session_start();
 </section>
 
 
+
 <!-- ================= PACKAGES ================= -->
 
 <section class="packages-section">
 
-    <h2>Popular Tour Packages</h2>
+    <h2>
+        Popular Tour Packages
+    </h2>
+
 
     <p class="section-text">
         Select from our exciting and affordable tour packages.
     </p>
 
 
+
     <div class="packages-container">
 
 
-        <!-- Goa -->
+        <?php if (mysqli_num_rows($query) > 0) { ?>
 
-        <div class="package-card">
 
-            <div class="package-image">
-                <img src="images/goa.jpg" alt="Goa Tour">
-            </div>
+            <?php while ($package = mysqli_fetch_assoc($query)) { ?>
 
-            <div class="package-content">
 
-                <h3>Goa Beach Tour</h3>
+                <!-- ================= PACKAGE CARD ================= -->
 
-                <p class="package-location">
-                    📍 Goa
-                </p>
+                <div class="package-card">
 
-                <p>
-                    Enjoy beautiful beaches, water sports,
-                    nightlife and delicious food.
-                </p>
 
-                <div class="package-info">
+                    <!-- Package Image -->
 
-                    <span>📅 3 Days / 2 Nights</span>
+                    <div class="package-image">
 
-                    <strong>₹8,999</strong>
+
+                        <?php if (!empty($package['image'])) { ?>
+
+
+                            <img
+                                src="images/<?php echo htmlspecialchars($package['image']); ?>"
+                                alt="<?php echo htmlspecialchars($package['package_name']); ?>"
+                            >
+
+
+                        <?php } else { ?>
+
+
+                            <div class="no-package-image">
+                                No Image
+                            </div>
+
+
+                        <?php } ?>
+
+
+                    </div>
+
+
+
+                    <!-- Package Content -->
+
+                    <div class="package-content">
+
+
+                        <!-- Package Name -->
+
+                        <h3>
+
+                            <?php
+                            echo htmlspecialchars(
+                                $package['package_name']
+                            );
+                            ?>
+
+                        </h3>
+
+
+
+                        <!-- Destination -->
+
+                        <p class="package-location">
+
+                            📍
+
+                            <?php
+                            echo htmlspecialchars(
+                                $package['destination']
+                            );
+                            ?>
+
+                        </p>
+
+
+
+                        <!-- Description -->
+
+                        <p>
+
+                            <?php
+                            echo htmlspecialchars(
+                                $package['description']
+                            );
+                            ?>
+
+                        </p>
+
+
+
+                        <!-- Package Information -->
+
+                        <div class="package-info">
+
+
+                            <span>
+
+                                📅
+
+                                <?php
+                                echo htmlspecialchars(
+                                    $package['duration']
+                                );
+                                ?>
+
+                            </span>
+
+
+                            <strong>
+
+                                ₹<?php
+                                echo number_format(
+                                    $package['price'],
+                                    2
+                                );
+                                ?>
+
+                            </strong>
+
+
+                        </div>
+
+
+
+                        <!-- Book Now -->
+
+                        <a
+                            href="booking.php"
+                            class="package-btn"
+                        >
+                            Book Now
+                        </a>
+
+
+                    </div>
+
 
                 </div>
 
-                <a href="booking.php" class="package-btn">
-                    Book Now
-                </a>
 
-            </div>
-
-        </div>
+            <?php } ?>
 
 
-        <!-- Manali -->
+        <?php } else { ?>
 
-        <div class="package-card">
 
-            <div class="package-image">
-                <img src="images/manali.jpg" alt="Manali Tour">
-            </div>
+            <!-- ================= NO PACKAGES ================= -->
 
-            <div class="package-content">
+            <div class="no-packages">
 
-                <h3>Manali Adventure</h3>
-
-                <p class="package-location">
-                    📍 Manali
-                </p>
+                <h2>
+                    No Tour Packages Available
+                </h2>
 
                 <p>
-                    Explore snow-covered mountains,
-                    valleys and beautiful landscapes.
+                    Please check again later for available tour packages.
                 </p>
-
-                <div class="package-info">
-
-                    <span>📅 4 Days / 3 Nights</span>
-
-                    <strong>₹11,999</strong>
-
-                </div>
-
-                <a href="booking.php" class="package-btn">
-                    Book Now
-                </a>
 
             </div>
 
-        </div>
 
-
-        <!-- Kashmir -->
-
-        <div class="package-card">
-
-            <div class="package-image">
-                <img src="images/kashmir.jpg" alt="Kashmir Tour">
-            </div>
-
-            <div class="package-content">
-
-                <h3>Kashmir Paradise</h3>
-
-                <p class="package-location">
-                    📍 Kashmir
-                </p>
-
-                <p>
-                    Experience beautiful valleys, lakes,
-                    mountains and peaceful surroundings.
-                </p>
-
-                <div class="package-info">
-
-                    <span>📅 5 Days / 4 Nights</span>
-
-                    <strong>₹15,999</strong>
-
-                </div>
-
-                <a href="booking.php" class="package-btn">
-                    Book Now
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <!-- Rajasthan -->
-
-        <div class="package-card">
-
-            <div class="package-image">
-                <img src="images/rajasthan.jpg" alt="Rajasthan Tour">
-            </div>
-
-            <div class="package-content">
-
-                <h3>Royal Rajasthan</h3>
-
-                <p class="package-location">
-                    📍 Rajasthan
-                </p>
-
-                <p>
-                    Discover royal palaces, forts,
-                    deserts and traditional culture.
-                </p>
-
-                <div class="package-info">
-
-                    <span>📅 5 Days / 4 Nights</span>
-
-                    <strong>₹13,999</strong>
-
-                </div>
-
-                <a href="booking.php" class="package-btn">
-                    Book Now
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <!-- Kerala -->
-
-        <div class="package-card">
-
-            <div class="package-image">
-                <img src="images/kerala.jpg" alt="Kerala Tour">
-            </div>
-
-            <div class="package-content">
-
-                <h3>Kerala Nature Tour</h3>
-
-                <p class="package-location">
-                    📍 Kerala
-                </p>
-
-                <p>
-                    Enjoy backwaters, greenery,
-                    beaches and peaceful nature.
-                </p>
-
-                <div class="package-info">
-
-                    <span>📅 4 Days / 3 Nights</span>
-
-                    <strong>₹10,999</strong>
-
-                </div>
-
-                <a href="booking.php" class="package-btn">
-                    Book Now
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <!-- Andaman -->
-
-        <div class="package-card">
-
-            <div class="package-image">
-                <img src="images/andaman.jpg" alt="Andaman Tour">
-            </div>
-
-            <div class="package-content">
-
-                <h3>Andaman Island</h3>
-
-                <p class="package-location">
-                    📍 Andaman
-                </p>
-
-                <p>
-                    Enjoy crystal-clear water, beaches,
-                    islands and exciting activities.
-                </p>
-
-                <div class="package-info">
-
-                    <span>📅 5 Days / 4 Nights</span>
-
-                    <strong>₹18,999</strong>
-
-                </div>
-
-                <a href="booking.php" class="package-btn">
-                    Book Now
-                </a>
-
-            </div>
-
-        </div>
+        <?php } ?>
 
 
     </div>
 
 </section>
+
 
 
 <!-- ================= FOOTER ================= -->
@@ -344,6 +358,7 @@ session_start();
     </p>
 
 </footer>
+
 
 </body>
 
