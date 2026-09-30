@@ -1,22 +1,55 @@
 <?php
+
 session_start();
 
 include "config/database.php";
 
+
+// ================= MESSAGE =================
+
 $message = "";
 $message_type = "";
 
+
+// ================= SELECTED PACKAGE =================
+
+// Get package name from URL
+$selected_package = "";
+
+if (isset($_GET['package'])) {
+
+    $selected_package = trim($_GET['package']);
+
+}
+
+
+// ================= FETCH PACKAGES =================
+
+$packages_query = mysqli_query(
+    $conn,
+    "SELECT * FROM packages ORDER BY id DESC"
+);
+
+
+// ================= BOOKING =================
+
 if (isset($_POST['book'])) {
 
-    $package_name = $_POST['package_name'];
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
+    $package_name = trim($_POST['package_name']);
+    $name = trim($_POST['name']);
+    $email = trim($_POST['email']);
+    $phone = trim($_POST['phone']);
     $travel_date = $_POST['travel_date'];
     $persons = $_POST['persons'];
-    $user_message = $_POST['message'];
+    $user_message = trim($_POST['message']);
 
-    // Check travel date
+
+    // Keep selected package after form submission
+    $selected_package = $package_name;
+
+
+    // ================= CHECK TRAVEL DATE =================
+
     if (strtotime($travel_date) < strtotime(date("Y-m-d"))) {
 
         $message = "Please select a future travel date.";
@@ -24,18 +57,32 @@ if (isset($_POST['book'])) {
 
     } else {
 
-        // Insert booking
+
+        // ================= INSERT BOOKING =================
+
         $sql = "INSERT INTO bookings
-                (user_id, package_name, name, email, phone, travel_date, persons, message)
+                (
+                    user_id,
+                    package_name,
+                    name,
+                    email,
+                    phone,
+                    travel_date,
+                    persons,
+                    message
+                )
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
+
         $stmt = mysqli_prepare($conn, $sql);
+
 
         if ($stmt) {
 
             $user_id = isset($_SESSION['user_id'])
                 ? $_SESSION['user_id']
                 : null;
+
 
             mysqli_stmt_bind_param(
                 $stmt,
@@ -50,6 +97,7 @@ if (isset($_POST['book'])) {
                 $user_message
             );
 
+
             if (mysqli_stmt_execute($stmt)) {
 
                 $message = "Booking successful! We will contact you soon.";
@@ -59,18 +107,26 @@ if (isset($_POST['book'])) {
 
                 $message = "Booking failed. Please try again.";
                 $message_type = "error";
+
             }
 
+
             mysqli_stmt_close($stmt);
+
 
         } else {
 
             $message = "Something went wrong. Please try again.";
             $message_type = "error";
+
         }
+
     }
+
 }
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -79,17 +135,31 @@ if (isset($_POST['book'])) {
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>Book Your Tour - Tourism Management System</title>
+    <title>
+        Book Your Tour - Tourism Management System
+    </title>
 
-    <link rel="stylesheet" href="css/style.css">
 
-    <link rel="stylesheet" href="css/booking.css">
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/booking.css"
+    >
 
 </head>
 
+
 <body>
+
 
 <!-- ================= NAVBAR ================= -->
 
@@ -97,60 +167,120 @@ if (isset($_POST['book'])) {
 
     <nav class="navbar">
 
+
         <div class="logo">
+
             Tourism<span>MS</span>
+
         </div>
+
 
         <ul class="nav-links">
 
-            <li>
-                <a href="index.php">Home</a>
-            </li>
 
             <li>
-                <a href="about.php">About</a>
+
+                <a href="index.php">
+                    Home
+                </a>
+
             </li>
 
-            <li>
-                <a href="places.php">Places</a>
-            </li>
 
             <li>
-                <a href="packages.php">Packages</a>
+
+                <a href="about.php">
+                    About
+                </a>
+
             </li>
 
-            <li>
-                <a href="booking.php">Booking</a>
-            </li>
 
             <li>
-                <a href="contact.php">Contact</a>
+
+                <a href="places.php">
+                    Places
+                </a>
+
             </li>
+
+
+            <li>
+
+                <a href="packages.php">
+                    Packages
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="booking.php">
+                    Booking
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="contact.php">
+                    Contact
+                </a>
+
+            </li>
+
 
             <?php if (isset($_SESSION['user_id'])) { ?>
 
-                <li>
-                    <span class="welcome">
-                        Welcome,
-                        <?php echo htmlspecialchars($_SESSION['user_name']); ?>
-                    </span>
-                </li>
 
                 <li>
-                    <a href="logout.php" class="logout-btn">
+
+                    <span class="welcome">
+
+                        Welcome,
+
+                        <?php
+                        echo htmlspecialchars(
+                            $_SESSION['user_name']
+                        );
+                        ?>
+
+                    </span>
+
+                </li>
+
+
+                <li>
+
+                    <a
+                        href="logout.php"
+                        class="logout-btn"
+                    >
                         Logout
                     </a>
+
                 </li>
+
 
             <?php } else { ?>
 
+
                 <li>
-                    <a href="login.php" class="login-btn">
+
+                    <a
+                        href="login.php"
+                        class="login-btn"
+                    >
                         Login
                     </a>
+
                 </li>
 
+
             <?php } ?>
+
 
         </ul>
 
@@ -159,13 +289,16 @@ if (isset($_POST['book'])) {
 </header>
 
 
+
 <!-- ================= PAGE HEADER ================= -->
 
 <section class="booking-header">
 
     <div>
 
-        <h1>Book Your Tour</h1>
+        <h1>
+            Book Your Tour
+        </h1>
 
         <p>
             Plan your journey and create unforgettable memories.
@@ -176,27 +309,37 @@ if (isset($_POST['book'])) {
 </section>
 
 
+
 <!-- ================= BOOKING SECTION ================= -->
 
 <section class="booking-section">
 
+
     <div class="booking-container">
 
 
-        <!-- LEFT INFORMATION -->
+        <!-- ================= LEFT INFORMATION ================= -->
 
         <div class="booking-info">
 
-            <h2>Start Your Journey</h2>
+
+            <h2>
+                Start Your Journey
+            </h2>
+
 
             <p>
                 Fill in the booking form and choose your favourite
                 destination.
             </p>
 
+
+
             <div class="booking-feature">
 
-                <h3>🌍 Beautiful Destinations</h3>
+                <h3>
+                    🌍 Beautiful Destinations
+                </h3>
 
                 <p>
                     Explore some of the most amazing places in India.
@@ -204,9 +347,13 @@ if (isset($_POST['book'])) {
 
             </div>
 
+
+
             <div class="booking-feature">
 
-                <h3>💰 Affordable Packages</h3>
+                <h3>
+                    💰 Affordable Packages
+                </h3>
 
                 <p>
                     Choose packages suitable for your budget.
@@ -214,9 +361,13 @@ if (isset($_POST['book'])) {
 
             </div>
 
+
+
             <div class="booking-feature">
 
-                <h3>🛡️ Safe & Easy Booking</h3>
+                <h3>
+                    🛡️ Safe & Easy Booking
+                </h3>
 
                 <p>
                     Simple and secure booking process.
@@ -224,69 +375,139 @@ if (isset($_POST['book'])) {
 
             </div>
 
+
         </div>
 
 
-        <!-- BOOKING FORM -->
+
+        <!-- ================= BOOKING FORM ================= -->
 
         <div class="booking-box">
 
-            <h2>Tour Booking Form</h2>
+
+            <h2>
+                Tour Booking Form
+            </h2>
+
+
+
+            <!-- ================= MESSAGE ================= -->
 
             <?php if ($message != "") { ?>
 
-                <div class="booking-message <?php echo $message_type; ?>">
+                <div
+                    class="booking-message
+                    <?php echo $message_type; ?>"
+                >
 
-                    <?php echo htmlspecialchars($message); ?>
+                    <?php
+                    echo htmlspecialchars($message);
+                    ?>
 
                 </div>
 
             <?php } ?>
 
 
-            <form method="POST" onsubmit="return validateBookingForm();">
+
+            <!-- ================= FORM ================= -->
+
+            <form
+                method="POST"
+                onsubmit="return validateBookingForm();"
+            >
 
 
-                <!-- PACKAGE -->
+                <!-- ================= PACKAGE ================= -->
 
-                <label>Choose Package</label>
+                <label>
+                    Choose Package
+                </label>
 
-                <select name="package_name" required>
+
+                <select
+                    name="package_name"
+                    required
+                >
+
 
                     <option value="">
                         Select Tour Package
                     </option>
 
-                    <option value="Goa Beach Tour">
-                        Goa Beach Tour - ₹8,999
-                    </option>
 
-                    <option value="Manali Adventure">
-                        Manali Adventure - ₹11,999
-                    </option>
 
-                    <option value="Kashmir Paradise">
-                        Kashmir Paradise - ₹15,999
-                    </option>
+                    <?php if (mysqli_num_rows($packages_query) > 0) { ?>
 
-                    <option value="Royal Rajasthan">
-                        Royal Rajasthan - ₹13,999
-                    </option>
 
-                    <option value="Kerala Nature Tour">
-                        Kerala Nature Tour - ₹10,999
-                    </option>
+                        <?php while ($package = mysqli_fetch_assoc($packages_query)) { ?>
 
-                    <option value="Andaman Island">
-                        Andaman Island - ₹18,999
-                    </option>
+
+                            <?php
+
+                            // Compare package names safely
+                            $is_selected =
+                                strtolower(trim($selected_package))
+                                ===
+                                strtolower(trim($package['package_name']));
+
+                            ?>
+
+
+                            <option
+                                value="<?php echo htmlspecialchars($package['package_name']); ?>"
+                                <?php
+                                if ($is_selected) {
+                                    echo "selected";
+                                }
+                                ?>
+                            >
+
+                                <?php
+                                echo htmlspecialchars(
+                                    $package['package_name']
+                                );
+                                ?>
+
+                                -
+
+                                ₹<?php
+                                echo number_format(
+                                    $package['price'],
+                                    2
+                                );
+                                ?>
+
+                            </option>
+
+
+                        <?php } ?>
+
+
+                    <?php } else { ?>
+
+
+                        <option
+                            value=""
+                            disabled
+                        >
+                            No packages available
+                        </option>
+
+
+                    <?php } ?>
+
 
                 </select>
 
 
-                <!-- NAME -->
 
-                <label>Full Name</label>
+                <!-- ================= NAME ================= -->
+
+                <label>
+                    Full Name
+                </label>
+
 
                 <input
                     type="text"
@@ -297,9 +518,13 @@ if (isset($_POST['book'])) {
                 >
 
 
-                <!-- EMAIL -->
 
-                <label>Email</label>
+                <!-- ================= EMAIL ================= -->
+
+                <label>
+                    Email
+                </label>
+
 
                 <input
                     type="email"
@@ -310,9 +535,13 @@ if (isset($_POST['book'])) {
                 >
 
 
-                <!-- PHONE -->
 
-                <label>Phone Number</label>
+                <!-- ================= PHONE ================= -->
+
+                <label>
+                    Phone Number
+                </label>
+
 
                 <input
                     type="text"
@@ -324,9 +553,13 @@ if (isset($_POST['book'])) {
                 >
 
 
-                <!-- DATE -->
 
-                <label>Travel Date</label>
+                <!-- ================= TRAVEL DATE ================= -->
+
+                <label>
+                    Travel Date
+                </label>
+
 
                 <input
                     type="date"
@@ -337,9 +570,13 @@ if (isset($_POST['book'])) {
                 >
 
 
-                <!-- PERSONS -->
 
-                <label>Number of Persons</label>
+                <!-- ================= PERSONS ================= -->
+
+                <label>
+                    Number of Persons
+                </label>
+
 
                 <input
                     type="number"
@@ -352,9 +589,13 @@ if (isset($_POST['book'])) {
                 >
 
 
-                <!-- MESSAGE -->
 
-                <label>Message</label>
+                <!-- ================= MESSAGE ================= -->
+
+                <label>
+                    Message
+                </label>
+
 
                 <textarea
                     name="message"
@@ -363,7 +604,8 @@ if (isset($_POST['book'])) {
                 ></textarea>
 
 
-                <!-- BUTTON -->
+
+                <!-- ================= BUTTON ================= -->
 
                 <button
                     type="submit"
@@ -373,13 +615,17 @@ if (isset($_POST['book'])) {
                     Book Now
                 </button>
 
+
             </form>
 
+
         </div>
+
 
     </div>
 
 </section>
+
 
 
 <!-- ================= FOOTER ================= -->
@@ -393,7 +639,9 @@ if (isset($_POST['book'])) {
 </footer>
 
 
+
 <script src="js/booking.js"></script>
+
 
 </body>
 

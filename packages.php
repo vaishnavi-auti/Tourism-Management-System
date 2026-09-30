@@ -304,13 +304,12 @@ $query = mysqli_query(
 
 
                         <!-- Book Now -->
-
-                        <a
-                            href="booking.php"
-                            class="package-btn"
-                        >
-                            Book Now
-                        </a>
+<a
+    href="booking.php?package=<?php echo urlencode($package['package_name']); ?>"
+    class="package-btn"
+>
+    Book Now
+</a>
 
 
                     </div>
