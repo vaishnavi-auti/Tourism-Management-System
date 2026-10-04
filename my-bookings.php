@@ -4,7 +4,7 @@ session_start();
 
 include "config/database.php";
 
-// User login आहे का ते check करा
+
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Logged-in user च्या bookings मिळवा
+
 $sql = "SELECT * FROM bookings WHERE user_id = ? ORDER BY id DESC";
 
 $stmt = mysqli_prepare($conn, $sql);
