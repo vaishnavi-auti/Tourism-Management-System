@@ -24,7 +24,10 @@ $result = mysqli_query($conn, $sql);
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Manage Bookings - Tourism Management System</title>
 
@@ -35,6 +38,7 @@ $result = mysqli_query($conn, $sql);
 </head>
 
 <body>
+
 
 <!-- ================= NAVBAR ================= -->
 
@@ -67,6 +71,7 @@ $result = mysqli_query($conn, $sql);
 </header>
 
 
+
 <!-- ================= BOOKINGS SECTION ================= -->
 
 <section class="bookings-section">
@@ -82,6 +87,29 @@ $result = mysqli_query($conn, $sql);
             </p>
 
         </div>
+
+
+
+        <!-- ================= SUCCESS / ERROR MESSAGE ================= -->
+
+        <?php if (isset($_GET['deleted'])) { ?>
+
+            <?php if ($_GET['deleted'] == "success") { ?>
+
+                <div class="booking-message success">
+                    Booking deleted successfully.
+                </div>
+
+            <?php } elseif ($_GET['deleted'] == "error") { ?>
+
+                <div class="booking-message error">
+                    Failed to delete booking.
+                </div>
+
+            <?php } ?>
+
+        <?php } ?>
+
 
 
         <!-- ================= BOOKINGS TABLE ================= -->
@@ -112,9 +140,12 @@ $result = mysqli_query($conn, $sql);
 
                         <th>Booking Date</th>
 
+                        <th>Action</th>
+
                     </tr>
 
                 </thead>
+
 
                 <tbody>
 
@@ -132,42 +163,97 @@ $result = mysqli_query($conn, $sql);
                             <?php echo $booking['id']; ?>
                         </td>
 
-                        <td>
-                            <?php echo htmlspecialchars($booking['package_name']); ?>
-                        </td>
-
-                        <td>
-                            <?php echo htmlspecialchars($booking['name']); ?>
-                        </td>
-
-                        <td>
-                            <?php echo htmlspecialchars($booking['email']); ?>
-                        </td>
-
-                        <td>
-                            <?php echo htmlspecialchars($booking['phone']); ?>
-                        </td>
-
-                        <td>
-                            <?php echo htmlspecialchars($booking['travel_date']); ?>
-                        </td>
-
-                        <td>
-                            <?php echo htmlspecialchars($booking['persons']); ?>
-                        </td>
 
                         <td>
                             <?php
-
-                            echo !empty($booking['message'])
-                                ? htmlspecialchars($booking['message'])
-                                : "No message";
-
+                            echo htmlspecialchars(
+                                $booking['package_name']
+                            );
                             ?>
                         </td>
 
+
                         <td>
-                            <?php echo htmlspecialchars($booking['booking_date']); ?>
+                            <?php
+                            echo htmlspecialchars(
+                                $booking['name']
+                            );
+                            ?>
+                        </td>
+
+
+                        <td>
+                            <?php
+                            echo htmlspecialchars(
+                                $booking['email']
+                            );
+                            ?>
+                        </td>
+
+
+                        <td>
+                            <?php
+                            echo htmlspecialchars(
+                                $booking['phone']
+                            );
+                            ?>
+                        </td>
+
+
+                        <td>
+                            <?php
+                            echo htmlspecialchars(
+                                $booking['travel_date']
+                            );
+                            ?>
+                        </td>
+
+
+                        <td>
+                            <?php
+                            echo htmlspecialchars(
+                                $booking['persons']
+                            );
+                            ?>
+                        </td>
+
+
+                        <td>
+
+                            <?php
+
+                            echo !empty($booking['message'])
+                                ? htmlspecialchars(
+                                    $booking['message']
+                                )
+                                : "No message";
+
+                            ?>
+
+                        </td>
+
+
+                        <td>
+                            <?php
+                            echo htmlspecialchars(
+                                $booking['booking_date']
+                            );
+                            ?>
+                        </td>
+
+
+                        <!-- ================= DELETE BUTTON ================= -->
+
+                        <td>
+
+                            <a
+                                href="delete-booking.php?id=<?php echo $booking['id']; ?>"
+                                class="delete-btn"
+                                onclick="return confirm('Are you sure you want to delete this booking?');"
+                            >
+                                Delete
+                            </a>
+
                         </td>
 
                     </tr>
@@ -182,8 +268,10 @@ $result = mysqli_query($conn, $sql);
 
                     <tr>
 
-                        <td colspan="9" class="no-data">
+                        <td colspan="10" class="no-data">
+
                             No bookings found.
+
                         </td>
 
                     </tr>
@@ -201,6 +289,7 @@ $result = mysqli_query($conn, $sql);
 </section>
 
 
+
 <!-- ================= FOOTER ================= -->
 
 <footer>
@@ -210,6 +299,7 @@ $result = mysqli_query($conn, $sql);
     </p>
 
 </footer>
+
 
 </body>
 
