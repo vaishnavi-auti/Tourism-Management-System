@@ -24,7 +24,10 @@ $result = mysqli_query($conn, $sql);
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Manage Users - Tourism Management System</title>
 
@@ -35,6 +38,7 @@ $result = mysqli_query($conn, $sql);
 </head>
 
 <body>
+
 
 <!-- ================= NAVBAR ================= -->
 
@@ -63,6 +67,7 @@ $result = mysqli_query($conn, $sql);
 </header>
 
 
+
 <!-- ================= USERS SECTION ================= -->
 
 <section class="users-section">
@@ -78,6 +83,29 @@ $result = mysqli_query($conn, $sql);
             </p>
 
         </div>
+
+
+
+        <!-- ================= SUCCESS / ERROR MESSAGE ================= -->
+
+        <?php if (isset($_GET['deleted'])) { ?>
+
+            <?php if ($_GET['deleted'] == "success") { ?>
+
+                <div class="user-message success">
+                    User deleted successfully.
+                </div>
+
+            <?php } elseif ($_GET['deleted'] == "error") { ?>
+
+                <div class="user-message error">
+                    Failed to delete user.
+                </div>
+
+            <?php } ?>
+
+        <?php } ?>
+
 
 
         <!-- ================= USERS TABLE ================= -->
@@ -98,9 +126,12 @@ $result = mysqli_query($conn, $sql);
 
                         <th>Phone</th>
 
+                        <th>Action</th>
+
                     </tr>
 
                 </thead>
+
 
                 <tbody>
 
@@ -118,16 +149,46 @@ $result = mysqli_query($conn, $sql);
                             <?php echo $user['id']; ?>
                         </td>
 
-                        <td>
-                            <?php echo htmlspecialchars($user['name']); ?>
-                        </td>
 
                         <td>
-                            <?php echo htmlspecialchars($user['email']); ?>
+                            <?php
+                            echo htmlspecialchars(
+                                $user['name']
+                            );
+                            ?>
                         </td>
 
+
                         <td>
-                            <?php echo htmlspecialchars($user['phone']); ?>
+                            <?php
+                            echo htmlspecialchars(
+                                $user['email']
+                            );
+                            ?>
+                        </td>
+
+
+                        <td>
+                            <?php
+                            echo htmlspecialchars(
+                                $user['phone']
+                            );
+                            ?>
+                        </td>
+
+
+                        <!-- ================= DELETE BUTTON ================= -->
+
+                        <td>
+
+                            <a
+                                href="delete-user.php?id=<?php echo $user['id']; ?>"
+                                class="delete-btn"
+                                onclick="return confirm('Are you sure you want to delete this user?');"
+                            >
+                                Delete
+                            </a>
+
                         </td>
 
                     </tr>
@@ -142,8 +203,10 @@ $result = mysqli_query($conn, $sql);
 
                     <tr>
 
-                        <td colspan="4" class="no-data">
+                        <td colspan="5" class="no-data">
+
                             No registered users found.
+
                         </td>
 
                     </tr>
@@ -161,6 +224,7 @@ $result = mysqli_query($conn, $sql);
 </section>
 
 
+
 <!-- ================= FOOTER ================= -->
 
 <footer>
@@ -170,6 +234,7 @@ $result = mysqli_query($conn, $sql);
     </p>
 
 </footer>
+
 
 </body>
 
