@@ -6,10 +6,8 @@ include "../config/database.php";
 
 // Check admin login
 if (!isset($_SESSION['admin_id'])) {
-
     header("Location: login.php");
     exit();
-
 }
 
 
@@ -20,7 +18,6 @@ $user_query = mysqli_query(
 );
 
 $user_data = mysqli_fetch_assoc($user_query);
-
 $total_users = $user_data['total_users'];
 
 
@@ -31,8 +28,27 @@ $booking_query = mysqli_query(
 );
 
 $booking_data = mysqli_fetch_assoc($booking_query);
-
 $total_bookings = $booking_data['total_bookings'];
+
+
+// Count packages
+$package_query = mysqli_query(
+    $conn,
+    "SELECT COUNT(*) AS total_packages FROM packages"
+);
+
+$package_data = mysqli_fetch_assoc($package_query);
+$total_packages = $package_data['total_packages'];
+
+
+// Count contact messages
+$message_query = mysqli_query(
+    $conn,
+    "SELECT COUNT(*) AS total_messages FROM contact_messages"
+);
+
+$message_data = mysqli_fetch_assoc($message_query);
+$total_messages = $message_data['total_messages'];
 
 ?>
 
@@ -43,7 +59,10 @@ $total_bookings = $booking_data['total_bookings'];
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Admin Dashboard - Tourism Management System</title>
 
@@ -147,6 +166,50 @@ $total_bookings = $booking_data['total_bookings'];
             </div>
 
 
+
+            <!-- PACKAGES -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    📦
+                </div>
+
+                <div>
+
+                    <h2>
+                        <?php echo $total_packages; ?>
+                    </h2>
+
+                    <p>Total Packages</p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- CONTACT MESSAGES -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    💬
+                </div>
+
+                <div>
+
+                    <h2>
+                        <?php echo $total_messages; ?>
+                    </h2>
+
+                    <p>Total Contact Messages</p>
+
+                </div>
+
+            </div>
+
+
         </div>
 
 
@@ -156,7 +219,6 @@ $total_bookings = $booking_data['total_bookings'];
         <div class="management-container">
 
             <h2>Management</h2>
-
 
             <div class="management-grid">
 
