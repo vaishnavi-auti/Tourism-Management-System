@@ -10,10 +10,47 @@ if (!isset($_SESSION['admin_id'])) {
     exit();
 }
 
-// Get all bookings
-$sql = "SELECT * FROM bookings ORDER BY id DESC";
 
-$result = mysqli_query($conn, $sql);
+// ================= SEARCH =================
+
+$search = "";
+
+if (isset($_GET['search'])) {
+    $search = trim($_GET['search']);
+}
+
+
+// Get bookings
+if ($search != "") {
+
+    $search_value = "%" . $search . "%";
+
+    $sql = "SELECT * FROM bookings
+            WHERE package_name LIKE ?
+            OR name LIKE ?
+            OR email LIKE ?
+            ORDER BY id DESC";
+
+    $stmt = mysqli_prepare($conn, $sql);
+
+    mysqli_stmt_bind_param(
+        $stmt,
+        "sss",
+        $search_value,
+        $search_value,
+        $search_value
+    );
+
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+
+} else {
+
+    $sql = "SELECT * FROM bookings ORDER BY id DESC";
+
+    $result = mysqli_query($conn, $sql);
+}
 
 ?>
 
@@ -109,6 +146,37 @@ $result = mysqli_query($conn, $sql);
             <?php } ?>
 
         <?php } ?>
+
+
+
+        <!-- ================= SEARCH BOX ================= -->
+
+        <div class="booking-search">
+
+            <form method="GET">
+
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Search by name, email or package..."
+                    value="<?php echo htmlspecialchars($search); ?>"
+                >
+
+                <button type="submit">
+                    Search
+                </button>
+
+                <?php if ($search != "") { ?>
+
+                    <a href="bookings.php" class="clear-search">
+                        Clear
+                    </a>
+
+                <?php } ?>
+
+            </form>
+
+        </div>
 
 
 
