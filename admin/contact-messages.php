@@ -11,10 +11,49 @@ if (!isset($_SESSION['admin_id'])) {
 }
 
 
-// Get all contact messages
-$sql = "SELECT * FROM contact_messages ORDER BY id DESC";
+// ================= SEARCH =================
 
-$result = mysqli_query($conn, $sql);
+$search = "";
+
+if (isset($_GET['search'])) {
+    $search = trim($_GET['search']);
+}
+
+
+// ================= GET CONTACT MESSAGES =================
+
+if ($search != "") {
+
+    $search_value = "%" . $search . "%";
+
+    $sql = "SELECT * FROM contact_messages
+            WHERE name LIKE ?
+            OR email LIKE ?
+            OR subject LIKE ?
+            OR message LIKE ?
+            ORDER BY id DESC";
+
+    $stmt = mysqli_prepare($conn, $sql);
+
+    mysqli_stmt_bind_param(
+        $stmt,
+        "ssss",
+        $search_value,
+        $search_value,
+        $search_value,
+        $search_value
+    );
+
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+
+} else {
+
+    $sql = "SELECT * FROM contact_messages ORDER BY id DESC";
+
+    $result = mysqli_query($conn, $sql);
+}
 
 ?>
 
@@ -109,6 +148,40 @@ $result = mysqli_query($conn, $sql);
             <?php } ?>
 
         <?php } ?>
+
+
+
+        <!-- ================= SEARCH BOX ================= -->
+
+        <div class="message-search">
+
+            <form method="GET">
+
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Search by name, email, subject or message..."
+                    value="<?php echo htmlspecialchars($search); ?>"
+                >
+
+                <button type="submit">
+                    Search
+                </button>
+
+                <?php if ($search != "") { ?>
+
+                    <a
+                        href="contact-messages.php"
+                        class="clear-search"
+                    >
+                        Clear
+                    </a>
+
+                <?php } ?>
+
+            </form>
+
+        </div>
 
 
 
