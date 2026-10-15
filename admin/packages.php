@@ -4,7 +4,8 @@ session_start();
 
 include "../config/database.php";
 
-// Check admin login
+// ================= ADMIN LOGIN CHECK =================
+
 if (!isset($_SESSION['admin_id'])) {
 
     header("Location: login.php");
@@ -13,11 +14,125 @@ if (!isset($_SESSION['admin_id'])) {
 }
 
 
-// Fetch all packages
-$query = mysqli_query(
-    $conn,
-    "SELECT * FROM packages ORDER BY id DESC"
-);
+// ================= SEARCH =================
+
+$search = "";
+
+if (isset($_GET['search'])) {
+
+    $search = trim($_GET['search']);
+
+}
+
+
+// ================= GET PACKAGES =================
+
+if ($search != "") {
+
+    /*
+    Search text into separate words.
+
+    Example:
+    3 Day / 2 Nights
+
+    becomes:
+
+    3
+    Day
+    2
+    Nights
+
+    Every word will be searched in:
+    Package Name
+    Destination
+    Duration
+    Price
+    Description
+    */
+
+    $words = preg_split(
+        '/[\s\/,\-]+/',
+        $search,
+        -1,
+        PREG_SPLIT_NO_EMPTY
+    );
+
+
+    $conditions = [];
+    $parameters = [];
+    $types = "";
+
+
+    foreach ($words as $word) {
+
+        $conditions[] = "
+            (
+                package_name LIKE ?
+                OR destination LIKE ?
+                OR duration LIKE ?
+                OR CAST(price AS CHAR) LIKE ?
+                OR description LIKE ?
+            )
+        ";
+
+
+        $search_value = "%" . $word . "%";
+
+
+        $parameters[] = $search_value;
+        $parameters[] = $search_value;
+        $parameters[] = $search_value;
+        $parameters[] = $search_value;
+        $parameters[] = $search_value;
+
+
+        $types .= "sssss";
+
+    }
+
+
+    $sql = "
+        SELECT *
+        FROM packages
+        WHERE " . implode(" AND ", $conditions) . "
+        ORDER BY id DESC
+    ";
+
+
+    $stmt = mysqli_prepare($conn, $sql);
+
+
+    if ($stmt) {
+
+        mysqli_stmt_bind_param(
+            $stmt,
+            $types,
+            ...$parameters
+        );
+
+
+        mysqli_stmt_execute($stmt);
+
+
+        $query = mysqli_stmt_get_result($stmt);
+
+    } else {
+
+        $query = false;
+
+    }
+
+
+} else {
+
+    // Show all packages when search is empty
+
+    $query = mysqli_query(
+        $conn,
+        "SELECT * FROM packages ORDER BY id DESC"
+    );
+
+}
 
 ?>
 
@@ -28,13 +143,26 @@ $query = mysqli_query(
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>Manage Packages - Tourism Management System</title>
+    <title>
+        Manage Packages - Tourism Management System
+    </title>
 
-    <link rel="stylesheet" href="../css/style.css">
 
-    <link rel="stylesheet" href="../css/admin-packages.css">
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+
+    <link
+        rel="stylesheet"
+        href="../css/admin-packages.css"
+    >
 
 </head>
 
@@ -42,36 +170,50 @@ $query = mysqli_query(
 <body>
 
 
+<!-- ================= NAVBAR ================= -->
+
 <header>
 
     <nav class="admin-navbar">
 
+
         <div class="admin-logo">
+
             Tourism<span>MS</span>
+
         </div>
 
 
         <div class="admin-right">
 
+
             <a href="dashboard.php">
                 Dashboard
             </a>
+
 
             <a href="users.php">
                 Users
             </a>
 
+
             <a href="bookings.php">
                 Bookings
             </a>
+
 
             <a href="contact-messages.php">
                 Messages
             </a>
 
-            <a href="logout.php" class="admin-logout">
+
+            <a
+                href="logout.php"
+                class="admin-logout"
+            >
                 Logout
             </a>
+
 
         </div>
 
@@ -81,20 +223,25 @@ $query = mysqli_query(
 
 
 
+<!-- ================= PACKAGES SECTION ================= -->
+
 <section class="packages-section">
+
 
     <div class="packages-container">
 
 
-        <!-- Page Header -->
+        <!-- ================= PAGE HEADER ================= -->
 
         <div class="packages-header">
+
 
             <div>
 
                 <h1>
                     Manage Packages
                 </h1>
+
 
                 <p class="packages-subtitle">
                     View and manage all tour packages
@@ -110,16 +257,62 @@ $query = mysqli_query(
                 + Add Package
             </a>
 
+
         </div>
 
 
 
-        <!-- Package List -->
+        <!-- ================= SEARCH ================= -->
 
-        <?php if (mysqli_num_rows($query) > 0) { ?>
+        <div class="package-search">
+
+
+            <form method="GET">
+
+
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Search package, destination, duration, price..."
+                    value="<?php echo htmlspecialchars($search); ?>"
+                >
+
+
+                <button type="submit">
+                    Search
+                </button>
+
+
+                <?php if ($search != "") { ?>
+
+                    <a
+                        href="packages.php"
+                        class="clear-search"
+                    >
+                        Clear
+                    </a>
+
+                <?php } ?>
+
+
+            </form>
+
+
+        </div>
+
+
+
+        <!-- ================= PACKAGE LIST ================= -->
+
+        <?php
+
+        if ($query && mysqli_num_rows($query) > 0) {
+
+        ?>
 
 
             <div class="table-container">
+
 
                 <table class="packages-table">
 
@@ -128,199 +321,224 @@ $query = mysqli_query(
 
                         <tr>
 
-                            <th>
-                                ID
-                            </th>
+                            <th>ID</th>
 
-                            <th>
-                                Image
-                            </th>
+                            <th>Image</th>
 
-                            <th>
-                                Package Name
-                            </th>
+                            <th>Package Name</th>
 
-                            <th>
-                                Destination
-                            </th>
+                            <th>Destination</th>
 
-                            <th>
-                                Duration
-                            </th>
+                            <th>Duration</th>
 
-                            <th>
-                                Price
-                            </th>
+                            <th>Price</th>
 
-                            <th>
-                                Description
-                            </th>
+                            <th>Description</th>
 
-                            <th>
-                                Action
-                            </th>
+                            <th>Action</th>
 
                         </tr>
 
                     </thead>
 
 
-
                     <tbody>
 
 
-                        <?php while ($package = mysqli_fetch_assoc($query)) { ?>
+                    <?php
 
+                    while (
+                        $package =
+                        mysqli_fetch_assoc($query)
+                    ) {
 
-                            <tr>
+                    ?>
 
 
-                                <!-- ID -->
+                        <tr>
 
-                                <td>
-                                    <?php
-                                    echo $package['id'];
-                                    ?>
-                                </td>
 
+                            <!-- ID -->
 
+                            <td>
 
-                                <!-- Image -->
+                                <?php
+                                echo htmlspecialchars(
+                                    $package['id']
+                                );
+                                ?>
 
-                                <td>
+                            </td>
 
-                                    <?php if (!empty($package['image'])) { ?>
 
 
-                                        <img
-                                            src="../images/<?php echo htmlspecialchars($package['image']); ?>"
-                                            class="package-image"
-                                            alt="Package Image"
-                                        >
+                            <!-- IMAGE -->
 
+                            <td>
 
-                                    <?php } else { ?>
 
+                                <?php
 
-                                        <span class="no-image">
-                                            No Image
-                                        </span>
+                                if (
+                                    !empty(
+                                        $package['image']
+                                    )
+                                ) {
 
+                                ?>
 
-                                    <?php } ?>
+                                    <img
+                                        src="../images/<?php
+                                        echo htmlspecialchars(
+                                            $package['image']
+                                        );
+                                        ?>"
+                                        class="package-image"
+                                        alt="Package Image"
+                                    >
 
-                                </td>
+                                <?php
 
+                                } else {
 
+                                ?>
 
-                                <!-- Package Name -->
+                                    <span class="no-image">
+                                        No Image
+                                    </span>
 
-                                <td>
+                                <?php
 
-                                    <?php
-                                    echo htmlspecialchars(
-                                        $package['package_name']
-                                    );
-                                    ?>
+                                }
 
-                                </td>
+                                ?>
 
 
+                            </td>
 
-                                <!-- Destination -->
 
-                                <td>
 
-                                    <?php
-                                    echo htmlspecialchars(
-                                        $package['destination']
-                                    );
-                                    ?>
+                            <!-- PACKAGE NAME -->
 
-                                </td>
+                            <td>
 
+                                <?php
+                                echo htmlspecialchars(
+                                    $package['package_name']
+                                );
+                                ?>
 
+                            </td>
 
-                                <!-- Duration -->
 
-                                <td>
 
-                                    <?php
-                                    echo htmlspecialchars(
-                                        $package['duration']
-                                    );
-                                    ?>
+                            <!-- DESTINATION -->
 
-                                </td>
+                            <td>
 
+                                <?php
+                                echo htmlspecialchars(
+                                    $package['destination']
+                                );
+                                ?>
 
+                            </td>
 
-                                <!-- Price -->
 
-                                <td class="price">
 
-                                    ₹<?php
-                                    echo htmlspecialchars(
-                                        $package['price']
-                                    );
-                                    ?>
+                            <!-- DURATION -->
 
-                                </td>
+                            <td>
 
+                                <?php
+                                echo htmlspecialchars(
+                                    $package['duration']
+                                );
+                                ?>
 
+                            </td>
 
-                                <!-- Description -->
 
-                                <td class="description">
 
-                                    <?php
-                                    echo htmlspecialchars(
-                                        $package['description']
-                                    );
-                                    ?>
+                            <!-- PRICE -->
 
-                                </td>
+                            <td class="price">
 
+                                ₹<?php
 
+                                echo number_format(
+                                    (float)$package['price'],
+                                    2
+                                );
 
-                                <!-- Action -->
+                                ?>
 
-                                <td>
+                            </td>
 
-                                    <div class="action-buttons">
 
 
-                                        <!-- Edit Button -->
+                            <!-- DESCRIPTION -->
 
-                                        <a
-                                            href="edit-package.php?id=<?php echo $package['id']; ?>"
-                                            class="edit-btn"
-                                        >
-                                            Edit
-                                        </a>
+                            <td class="description">
 
+                                <?php
+                                echo htmlspecialchars(
+                                    $package['description']
+                                );
+                                ?>
 
+                            </td>
 
-                                        <!-- Delete Button -->
 
-                                        <a
-                                            href="delete-package.php?id=<?php echo $package['id']; ?>"
-                                            class="delete-btn"
-                                            onclick="return confirm('Are you sure you want to delete this package?');"
-                                        >
-                                            Delete
-                                        </a>
 
+                            <!-- ACTION -->
 
-                                    </div>
+                            <td>
 
-                                </td>
 
+                                <div class="action-buttons">
 
-                            </tr>
 
+                                    <!-- EDIT -->
 
-                        <?php } ?>
+                                    <a
+                                        href="edit-package.php?id=<?php
+                                        echo $package['id'];
+                                        ?>"
+                                        class="edit-btn"
+                                    >
+                                        Edit
+                                    </a>
+
+
+
+                                    <!-- DELETE -->
+
+                                    <a
+                                        href="delete-package.php?id=<?php
+                                        echo $package['id'];
+                                        ?>"
+                                        class="delete-btn"
+                                        onclick="return confirm('Are you sure you want to delete this package?');"
+                                    >
+                                        Delete
+                                    </a>
+
+
+                                </div>
+
+
+                            </td>
+
+
+                        </tr>
+
+
+                    <?php
+
+                    }
+
+                    ?>
 
 
                     </tbody>
@@ -328,13 +546,18 @@ $query = mysqli_query(
 
                 </table>
 
+
             </div>
 
 
-        <?php } else { ?>
+        <?php
+
+        } else {
+
+        ?>
 
 
-            <!-- No Packages -->
+            <!-- ================= NO PACKAGES ================= -->
 
             <div class="no-packages">
 
@@ -349,35 +572,62 @@ $query = mysqli_query(
                 </h2>
 
 
-                <p>
-                    No tour packages have been added yet.
-                </p>
+                <?php if ($search != "") { ?>
+
+                    <p>
+                        No packages matched your search.
+                    </p>
 
 
-                <a
-                    href="add-package.php"
-                    class="add-package-btn"
-                >
-                    + Add Your First Package
-                </a>
+                    <a
+                        href="packages.php"
+                        class="clear-search"
+                    >
+                        Clear Search
+                    </a>
+
+
+                <?php } else { ?>
+
+                    <p>
+                        No tour packages have been added yet.
+                    </p>
+
+
+                    <a
+                        href="add-package.php"
+                        class="add-package-btn"
+                    >
+                        + Add Your First Package
+                    </a>
+
+                <?php } ?>
 
 
             </div>
 
 
-        <?php } ?>
+        <?php
+
+        }
+
+        ?>
 
 
     </div>
+
 
 </section>
 
 
 
+<!-- ================= FOOTER ================= -->
+
 <footer>
 
     <p>
-        © 2026 Tourism Management System. All Rights Reserved.
+        © 2026 Tourism Management System.
+        All Rights Reserved.
     </p>
 
 </footer>
