@@ -4,12 +4,11 @@ session_start();
 
 include "../config/database.php";
 
-// Check admin login
+// Admin login check
 if (!isset($_SESSION['admin_id'])) {
     header("Location: login.php");
     exit();
 }
-
 
 // Check package ID
 if (!isset($_GET['id']) || empty($_GET['id'])) {
@@ -19,29 +18,72 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 
 $package_id = intval($_GET['id']);
 
+// First get package image name
+$select_sql = "SELECT image FROM packages WHERE id = ?";
 
-// Delete package
-$sql = "DELETE FROM packages WHERE id = ?";
+$select_stmt = mysqli_prepare($conn, $select_sql);
 
-$stmt = mysqli_prepare($conn, $sql);
+if (!$select_stmt) {
+    header("Location: packages.php?deleted=error");
+    exit();
+}
 
 mysqli_stmt_bind_param(
-    $stmt,
+    $select_stmt,
     "i",
     $package_id
 );
 
+mysqli_stmt_execute($select_stmt);
 
-if (mysqli_stmt_execute($stmt)) {
+$result = mysqli_stmt_get_result($select_stmt);
 
-    mysqli_stmt_close($stmt);
+$package = mysqli_fetch_assoc($result);
+
+mysqli_stmt_close($select_stmt);
+
+// Check package exists
+if (!$package) {
+    header("Location: packages.php?deleted=notfound");
+    exit();
+}
+
+// Delete package from database
+$delete_sql = "DELETE FROM packages WHERE id = ?";
+
+$delete_stmt = mysqli_prepare($conn, $delete_sql);
+
+if (!$delete_stmt) {
+    header("Location: packages.php?deleted=error");
+    exit();
+}
+
+mysqli_stmt_bind_param(
+    $delete_stmt,
+    "i",
+    $package_id
+);
+
+if (mysqli_stmt_execute($delete_stmt)) {
+
+    mysqli_stmt_close($delete_stmt);
+
+    // Delete image file if image exists
+    if (!empty($package['image'])) {
+
+        $image_path = "../images/" . $package['image'];
+
+        if (file_exists($image_path)) {
+            unlink($image_path);
+        }
+    }
 
     header("Location: packages.php?deleted=success");
     exit();
 
 } else {
 
-    mysqli_stmt_close($stmt);
+    mysqli_stmt_close($delete_stmt);
 
     header("Location: packages.php?deleted=error");
     exit();
