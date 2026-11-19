@@ -30,24 +30,23 @@ if (isset($_GET['search'])) {
 if ($search != "") {
 
     /*
-    Search text into separate words.
+        Search text into separate words.
 
-    Example:
-    3 Day / 2 Nights
+        Example:
+        3 Day / 2 Nights
 
-    becomes:
+        becomes:
+        3
+        Day
+        2
+        Nights
 
-    3
-    Day
-    2
-    Nights
-
-    Every word will be searched in:
-    Package Name
-    Destination
-    Duration
-    Price
-    Description
+        Every word will be searched in:
+        Package Name
+        Destination
+        Duration
+        Price
+        Description
     */
 
     $words = preg_split(
@@ -131,6 +130,37 @@ if ($search != "") {
         $conn,
         "SELECT * FROM packages ORDER BY id DESC"
     );
+
+}
+
+
+// ================= DELETE MESSAGE =================
+
+$delete_message = "";
+$delete_message_type = "";
+
+if (isset($_GET['deleted'])) {
+
+    if ($_GET['deleted'] == "success") {
+
+        $delete_message = "Package deleted successfully!";
+        $delete_message_type = "success";
+
+    }
+
+    elseif ($_GET['deleted'] == "error") {
+
+        $delete_message = "Unable to delete package!";
+        $delete_message_type = "error";
+
+    }
+
+    elseif ($_GET['deleted'] == "notfound") {
+
+        $delete_message = "Package not found!";
+        $delete_message_type = "error";
+
+    }
 
 }
 
@@ -261,6 +291,21 @@ if ($search != "") {
         </div>
 
 
+        <!-- ================= DELETE MESSAGE ================= -->
+
+        <?php if ($delete_message != "") { ?>
+
+            <div
+                class="delete-message <?php echo $delete_message_type; ?>"
+            >
+
+                <?php echo htmlspecialchars($delete_message); ?>
+
+            </div>
+
+        <?php } ?>
+
+
 
         <!-- ================= SEARCH ================= -->
 
@@ -363,9 +408,11 @@ if ($search != "") {
                             <td>
 
                                 <?php
+
                                 echo htmlspecialchars(
                                     $package['id']
                                 );
+
                                 ?>
 
                             </td>
@@ -423,9 +470,11 @@ if ($search != "") {
                             <td>
 
                                 <?php
+
                                 echo htmlspecialchars(
                                     $package['package_name']
                                 );
+
                                 ?>
 
                             </td>
@@ -437,9 +486,11 @@ if ($search != "") {
                             <td>
 
                                 <?php
+
                                 echo htmlspecialchars(
                                     $package['destination']
                                 );
+
                                 ?>
 
                             </td>
@@ -451,9 +502,11 @@ if ($search != "") {
                             <td>
 
                                 <?php
+
                                 echo htmlspecialchars(
                                     $package['duration']
                                 );
+
                                 ?>
 
                             </td>
@@ -482,9 +535,11 @@ if ($search != "") {
                             <td class="description">
 
                                 <?php
+
                                 echo htmlspecialchars(
                                     $package['description']
                                 );
+
                                 ?>
 
                             </td>
