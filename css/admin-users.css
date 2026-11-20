@@ -1,185 +1,312 @@
-/* =========================================
-   ADMIN NAVBAR
-========================================= */
-
-.admin-navbar {
-    min-height: 70px;
-
-    padding: 15px 7%;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    background: white;
-
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.admin-logo {
-    font-size: 25px;
-
-    font-weight: bold;
-
-    color: #222;
-}
-
-.admin-logo span {
-    color: #009688;
-}
-
-.admin-right {
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-}
-
-.dashboard-btn,
-.admin-logout {
-    text-decoration: none;
-
-    color: white;
-
-    padding: 9px 18px;
-
-    border-radius: 6px;
-
-    font-weight: bold;
-}
-
-.dashboard-btn {
-    background: #009688;
-}
-
-.dashboard-btn:hover {
-    background: #00796b;
-}
-
-.admin-logout {
-    background: #e53935;
-}
-
-.admin-logout:hover {
-    background: #c62828;
-}
-
-
-/* =========================================
-   USERS SECTION
-========================================= */
+/* ================= ADMIN USERS ================= */
 
 .users-section {
-    min-height: calc(100vh - 140px);
-
-    padding: 50px 7%;
-
-    background: #f5fafa;
+    padding: 40px 0 60px;
+    min-height: 70vh;
 }
 
-.users-container {
-    max-width: 1150px;
 
+.users-container {
+    width: 94%;
+    max-width: 1250px;
     margin: auto;
 }
 
+
+/* ================= PAGE TITLE ================= */
+
 .page-title {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
+
 
 .page-title h1 {
-    font-size: 35px;
-
-    color: #222;
-
-    margin-bottom: 8px;
+    margin: 0 0 8px;
+    color: #2563eb;
+    font-size: 30px;
+    font-weight: 700;
 }
+
 
 .page-title p {
-    color: #777;
-}
-
-
-/* =========================================
-   TABLE
-========================================= */
-
-.table-box {
-    width: 100%;
-
-    background: white;
-
-    border-radius: 10px;
-
-    overflow-x: auto;
-
-    box-shadow:
-        0 5px 20px rgba(0, 0, 0, 0.08);
-}
-
-table {
-    width: 100%;
-
-    border-collapse: collapse;
-
-    min-width: 650px;
-}
-
-thead {
-    background: #009688;
-
-    color: white;
-}
-
-th,
-td {
-    padding: 16px;
-
-    text-align: left;
-
-    border-bottom: 1px solid #eee;
-}
-
-th {
+    margin: 0;
+    color: #64748b;
     font-size: 15px;
 }
 
-td {
-    color: #555;
-}
 
-tbody tr:hover {
-    background: #f5fafa;
-}
+/* ================= SEARCH ================= */
 
-.no-data {
-    text-align: center;
-
-    padding: 30px;
-
-    color: #777;
+.search-box {
+    margin-bottom: 25px;
 }
 
 
-/* =========================================
-   MOBILE
-========================================= */
+.search-box form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
 
-@media (max-width: 600px) {
 
-    .users-section {
-        padding: 35px 5%;
+.search-box input {
+    width: 100%;
+    max-width: 380px;
+    padding: 12px 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+
+.search-box input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+}
+
+
+/* ================= SEARCH BUTTON ================= */
+
+.search-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+
+.search-btn:hover {
+    background: #1d4ed8;
+}
+
+
+/* ================= CLEAR BUTTON ================= */
+
+.clear-btn {
+    padding: 11px 18px;
+    border-radius: 8px;
+    background: #64748b;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+.clear-btn:hover {
+    background: #475569;
+}
+
+
+/* ================= USERS TABLE ================= */
+
+.users-table-box {
+    width: 100%;
+    background: #ffffff;
+    border-radius: 14px;
+    overflow-x: auto;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+}
+
+
+.users-table-box table {
+    width: 100%;
+    min-width: 1000px;
+    border-collapse: collapse;
+}
+
+
+/* ================= TABLE HEADER ================= */
+
+.users-table-box th {
+    padding: 16px 15px;
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #0ea5e9
+    );
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: left;
+    white-space: nowrap;
+}
+
+
+/* ================= TABLE DATA ================= */
+
+.users-table-box td {
+    padding: 16px 15px;
+    color: #475569;
+    font-size: 14px;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: middle;
+}
+
+
+.users-table-box tbody tr {
+    transition: 0.2s ease;
+}
+
+
+.users-table-box tbody tr:hover {
+    background: #eff6ff;
+}
+
+
+/* ================= COLUMN WIDTH ================= */
+
+.users-table-box th:nth-child(1),
+.users-table-box td:nth-child(1) {
+    width: 60px;
+}
+
+
+.users-table-box th:nth-child(2),
+.users-table-box td:nth-child(2) {
+    min-width: 150px;
+}
+
+
+.users-table-box th:nth-child(3),
+.users-table-box td:nth-child(3) {
+    min-width: 230px;
+}
+
+
+.users-table-box th:nth-child(4),
+.users-table-box td:nth-child(4) {
+    min-width: 130px;
+}
+
+
+.users-table-box th:nth-child(5),
+.users-table-box td:nth-child(5) {
+    min-width: 180px;
+}
+
+
+.users-table-box th:nth-child(6),
+.users-table-box td:nth-child(6) {
+    min-width: 160px;
+}
+
+
+/* ================= USER ID ================= */
+
+.users-table-box td:first-child {
+    color: #2563eb;
+    font-weight: 700;
+}
+
+
+/* ================= USER NAME ================= */
+
+.users-table-box td:nth-child(2) {
+    color: #1e293b;
+    font-weight: 600;
+}
+
+
+/* ================= EMAIL ================= */
+
+.users-table-box td:nth-child(3) {
+    color: #475569;
+}
+
+
+/* ================= VIEW BUTTON ================= */
+
+.view-btn {
+    display: inline-block;
+    padding: 8px 15px;
+    margin-right: 5px;
+    background: #0ea5e9;
+    color: #ffffff !important;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+
+.view-btn:hover {
+    background: #0284c7;
+}
+
+
+/* ================= DELETE BUTTON ================= */
+
+.delete-btn {
+    display: inline-block;
+    padding: 8px 15px;
+    background: #ef4444;
+    color: #ffffff !important;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+
+.delete-btn:hover {
+    background: #dc2626;
+}
+
+
+/* ================= EMPTY RESULT ================= */
+
+.no-users {
+    text-align: center !important;
+    padding: 35px !important;
+    color: #64748b !important;
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 700px) {
+
+    .users-container {
+        width: 94%;
     }
+
 
     .page-title h1 {
-        font-size: 28px;
+        font-size: 25px;
     }
 
-    .admin-navbar {
-        padding: 15px 5%;
+
+    .search-box form {
+        align-items: stretch;
+    }
+
+
+    .search-box input {
+        max-width: 100%;
+    }
+
+
+    .search-btn,
+    .clear-btn {
+        text-align: center;
+    }
+
+
+    .users-table-box th,
+    .users-table-box td {
+        padding: 12px;
     }
 
 }

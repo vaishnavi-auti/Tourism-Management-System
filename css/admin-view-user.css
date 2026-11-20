@@ -1,0 +1,270 @@
+ /* ================= ADMIN VIEW USER ================= */
+
+.user-details-box,
+.booking-history-box {
+    width: 92%;
+    max-width: 1100px;
+    margin: 30px auto;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e7eb;
+}
+
+
+/* ================= USER DETAILS ================= */
+
+.user-details-box {
+    max-width: 900px;
+    padding: 0;
+    overflow: hidden;
+}
+
+
+.user-details-box::before {
+    content: "USER INFORMATION";
+    display: block;
+    padding: 18px 28px;
+    background: linear-gradient(135deg, #2563eb, #0ea5e9);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+
+/* ================= DETAIL ROW ================= */
+
+.detail-row {
+    display: flex;
+    align-items: center;
+    padding: 18px 28px;
+    border-bottom: 1px solid #eeeeee;
+    transition: 0.2s ease;
+}
+
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+
+.detail-row:hover {
+    background: #f0f9ff;
+}
+
+
+/* ================= LABEL ================= */
+
+.detail-label {
+    width: 35%;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* ================= VALUE ================= */
+
+.detail-value {
+    width: 65%;
+    color: #1e293b;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+
+/* ================= BOOKING HISTORY ================= */
+
+.booking-history-box {
+    padding: 0;
+    overflow: hidden;
+}
+
+
+.booking-history-title {
+    padding: 24px 28px;
+    background: linear-gradient(135deg, #0f766e, #14b8a6);
+    color: #ffffff;
+}
+
+
+.booking-history-title h2 {
+    margin: 0 0 6px;
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+
+.booking-history-title p {
+    margin: 0;
+    color: #d1fae5;
+    font-size: 14px;
+}
+
+
+/* ================= BOOKING TABLE ================= */
+
+.booking-table-box {
+    width: 100%;
+    overflow-x: auto;
+}
+
+
+.booking-table-box table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: collapse;
+}
+
+
+.booking-table-box th {
+    padding: 15px 16px;
+    background: #f0fdfa;
+    color: #0f766e;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: left;
+    text-transform: uppercase;
+    border-bottom: 2px solid #99f6e4;
+}
+
+
+.booking-table-box td {
+    padding: 16px;
+    color: #475569;
+    font-size: 14px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+
+.booking-table-box tbody tr {
+    transition: 0.2s ease;
+}
+
+
+.booking-table-box tbody tr:hover {
+    background: #f0fdfa;
+}
+
+
+/* ================= BOOKING ID ================= */
+
+.booking-table-box td:first-child {
+    color: #2563eb;
+    font-weight: 700;
+}
+
+
+/* ================= PACKAGE ================= */
+
+.booking-table-box td:nth-child(2) {
+    color: #0f766e;
+    font-weight: 700;
+}
+
+
+/* ================= PERSONS ================= */
+
+.booking-table-box td:nth-child(4) {
+    color: #2563eb;
+    font-weight: 700;
+}
+
+
+/* ================= MESSAGE ================= */
+
+.booking-table-box td:nth-child(5) {
+    max-width: 220px;
+    color: #64748b;
+}
+
+
+/* ================= NO BOOKINGS ================= */
+
+.no-bookings {
+    text-align: center !important;
+    padding: 35px !important;
+    color: #64748b !important;
+}
+
+
+/* ================= BACK BUTTON ================= */
+
+.details-actions {
+    width: 92%;
+    max-width: 1100px;
+    margin: 25px auto 40px;
+    text-align: left;
+}
+
+
+.back-users-btn {
+    display: inline-block;
+    padding: 11px 22px;
+    background: #2563eb;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.25s ease;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.20);
+}
+
+
+.back-users-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 700px) {
+
+    .user-details-box,
+    .booking-history-box {
+        width: 92%;
+    }
+
+
+    .detail-row {
+        display: block;
+        padding: 16px 20px;
+    }
+
+
+    .detail-label,
+    .detail-value {
+        width: 100%;
+    }
+
+
+    .detail-value {
+        margin-top: 7px;
+    }
+
+
+    .user-details-box::before {
+        padding: 16px 20px;
+    }
+
+
+    .booking-history-title {
+        padding: 20px;
+    }
+
+
+    .booking-table-box th,
+    .booking-table-box td {
+        padding: 12px;
+    }
+
+
+    .details-actions {
+        width: 92%;
+    }
+
+}

@@ -4,7 +4,8 @@ session_start();
 
 include "../config/database.php";
 
-// Check admin login
+// ================= ADMIN LOGIN CHECK =================
+
 if (!isset($_SESSION['admin_id'])) {
     header("Location: login.php");
     exit();
@@ -26,7 +27,7 @@ if ($search != "") {
 
     $search_value = "%" . $search . "%";
 
-    $sql = "SELECT id, name, email, phone
+    $sql = "SELECT id, name, email, phone, created_at
             FROM users
             WHERE name LIKE ?
             OR email LIKE ?
@@ -49,7 +50,7 @@ if ($search != "") {
 
 } else {
 
-    $sql = "SELECT id, name, email, phone
+    $sql = "SELECT id, name, email, phone, created_at
             FROM users
             ORDER BY id DESC";
 
@@ -70,13 +71,20 @@ if ($search != "") {
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Manage Users - Tourism Management System</title>
+    <title>Registered Users - TourismMS</title>
 
-    <link rel="stylesheet" href="../css/style.css">
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
 
-    <link rel="stylesheet" href="../css/admin-users.css">
+    <link
+        rel="stylesheet"
+        href="../css/admin-users.css"
+    >
 
 </head>
+
 
 <body>
 
@@ -91,13 +99,21 @@ if ($search != "") {
             Tourism<span>MS</span>
         </div>
 
+
         <div class="admin-right">
 
-            <a href="dashboard.php" class="dashboard-btn">
+            <a
+                href="dashboard.php"
+                class="dashboard-btn"
+            >
                 Dashboard
             </a>
 
-            <a href="logout.php" class="admin-logout">
+
+            <a
+                href="logout.php"
+                class="admin-logout"
+            >
                 Logout
             </a>
 
@@ -115,45 +131,31 @@ if ($search != "") {
 
     <div class="users-container">
 
+
+        <!-- ================= PAGE TITLE ================= -->
+
         <div class="page-title">
 
-            <h1>Registered Users</h1>
+            <h1>
+                Registered Users
+            </h1>
 
             <p>
-                View all users registered in the Tourism Management System.
+                View and manage all users registered in the Tourism Management System.
             </p>
 
         </div>
 
 
 
-        <!-- ================= SUCCESS / ERROR MESSAGE ================= -->
+        <!-- ================= SEARCH ================= -->
 
-        <?php if (isset($_GET['deleted'])) { ?>
+        <div class="search-box">
 
-            <?php if ($_GET['deleted'] == "success") { ?>
-
-                <div class="user-message success">
-                    User deleted successfully.
-                </div>
-
-            <?php } elseif ($_GET['deleted'] == "error") { ?>
-
-                <div class="user-message error">
-                    Failed to delete user.
-                </div>
-
-            <?php } ?>
-
-        <?php } ?>
-
-
-
-        <!-- ================= SEARCH BOX ================= -->
-
-        <div class="user-search">
-
-            <form method="GET">
+            <form
+                method="GET"
+                action=""
+            >
 
                 <input
                     type="text"
@@ -162,13 +164,20 @@ if ($search != "") {
                     value="<?php echo htmlspecialchars($search); ?>"
                 >
 
-                <button type="submit">
+                <button
+                    type="submit"
+                    class="search-btn"
+                >
                     Search
                 </button>
 
+
                 <?php if ($search != "") { ?>
 
-                    <a href="users.php" class="clear-search">
+                    <a
+                        href="users.php"
+                        class="clear-btn"
+                    >
                         Clear
                     </a>
 
@@ -182,7 +191,7 @@ if ($search != "") {
 
         <!-- ================= USERS TABLE ================= -->
 
-        <div class="table-box">
+        <div class="users-table-box">
 
             <table>
 
@@ -190,15 +199,29 @@ if ($search != "") {
 
                     <tr>
 
-                        <th>ID</th>
+                        <th>
+                            ID
+                        </th>
 
-                        <th>Name</th>
+                        <th>
+                            Name
+                        </th>
 
-                        <th>Email</th>
+                        <th>
+                            Email
+                        </th>
 
-                        <th>Phone</th>
+                        <th>
+                            Phone
+                        </th>
 
-                        <th>Action</th>
+                        <th>
+                            Registration Date
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
 
                     </tr>
 
@@ -209,49 +232,99 @@ if ($search != "") {
 
                     <?php
 
-                    if (mysqli_num_rows($result) > 0) {
+                    if (
+                        $result &&
+                        mysqli_num_rows($result) > 0
+                    ) {
 
-                        while ($user = mysqli_fetch_assoc($result)) {
+                        while (
+                            $user = mysqli_fetch_assoc($result)
+                        ) {
 
                     ?>
 
                     <tr>
 
+
+                        <!-- ID -->
+
                         <td>
-                            <?php echo $user['id']; ?>
+
+                            <?php
+                            echo $user['id'];
+                            ?>
+
                         </td>
 
 
+
+                        <!-- NAME -->
+
                         <td>
+
                             <?php
                             echo htmlspecialchars(
                                 $user['name']
                             );
                             ?>
+
                         </td>
 
 
+
+                        <!-- EMAIL -->
+
                         <td>
+
                             <?php
                             echo htmlspecialchars(
                                 $user['email']
                             );
                             ?>
+
                         </td>
 
 
+
+                        <!-- PHONE -->
+
                         <td>
+
                             <?php
                             echo htmlspecialchars(
                                 $user['phone']
                             );
                             ?>
+
                         </td>
 
 
-                        <!-- ================= DELETE BUTTON ================= -->
+
+                        <!-- REGISTRATION DATE -->
 
                         <td>
+
+                            <?php
+                            echo htmlspecialchars(
+                                $user['created_at']
+                            );
+                            ?>
+
+                        </td>
+
+
+
+                        <!-- ACTION -->
+
+                        <td>
+
+                            <a
+                                href="view-user.php?id=<?php echo $user['id']; ?>"
+                                class="view-btn"
+                            >
+                                View
+                            </a>
+
 
                             <a
                                 href="delete-user.php?id=<?php echo $user['id']; ?>"
@@ -262,6 +335,7 @@ if ($search != "") {
                             </a>
 
                         </td>
+
 
                     </tr>
 
@@ -275,10 +349,11 @@ if ($search != "") {
 
                     <tr>
 
-                        <td colspan="5" class="no-data">
-
-                            No registered users found.
-
+                        <td
+                            colspan="6"
+                            class="no-users"
+                        >
+                            No users found.
                         </td>
 
                     </tr>
@@ -290,6 +365,7 @@ if ($search != "") {
             </table>
 
         </div>
+
 
     </div>
 
@@ -311,3 +387,11 @@ if ($search != "") {
 </body>
 
 </html>
+
+<?php
+
+if (isset($stmt)) {
+    mysqli_stmt_close($stmt);
+}
+
+?>
