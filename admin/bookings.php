@@ -310,9 +310,16 @@ if ($search != "") {
                         </td>
 
 
-                        <!-- ================= DELETE BUTTON ================= -->
+                        <!-- ================= ACTION BUTTONS ================= -->
 
                         <td>
+
+                            <a
+                                href="view-booking.php?id=<?php echo $booking['id']; ?>"
+                                class="view-btn"
+                            >
+                                View
+                            </a>
 
                             <a
                                 href="delete-booking.php?id=<?php echo $booking['id']; ?>"

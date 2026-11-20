@@ -193,4 +193,15 @@ tbody tr:hover {
         padding: 15px 5%;
     }
 
+}/* ================= ACTION BUTTONS ================= */
+
+.view-btn,
+.delete-btn {
+    display: inline-block;
+    margin: 4px;
+    padding: 8px 14px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
 }
