@@ -4,7 +4,8 @@ session_start();
 
 include "../config/database.php";
 
-// Check admin login
+// ================= ADMIN LOGIN CHECK =================
+
 if (!isset($_SESSION['admin_id'])) {
     header("Location: login.php");
     exit();
@@ -20,22 +21,26 @@ if (isset($_GET['search'])) {
 }
 
 
-// Get bookings
+// ================= GET BOOKINGS =================
+
 if ($search != "") {
 
     $search_value = "%" . $search . "%";
 
-    $sql = "SELECT * FROM bookings
+    $sql = "SELECT *
+            FROM bookings
             WHERE package_name LIKE ?
             OR name LIKE ?
             OR email LIKE ?
+            OR phone LIKE ?
             ORDER BY id DESC";
 
     $stmt = mysqli_prepare($conn, $sql);
 
     mysqli_stmt_bind_param(
         $stmt,
-        "sss",
+        "ssss",
+        $search_value,
         $search_value,
         $search_value,
         $search_value
@@ -47,7 +52,9 @@ if ($search != "") {
 
 } else {
 
-    $sql = "SELECT * FROM bookings ORDER BY id DESC";
+    $sql = "SELECT *
+            FROM bookings
+            ORDER BY id DESC";
 
     $result = mysqli_query($conn, $sql);
 }
@@ -66,13 +73,20 @@ if ($search != "") {
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Manage Bookings - Tourism Management System</title>
+    <title>Manage Bookings - TourismMS</title>
 
-    <link rel="stylesheet" href="../css/style.css">
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
 
-    <link rel="stylesheet" href="../css/admin-bookings.css">
+    <link
+        rel="stylesheet"
+        href="../css/admin-bookings.css"
+    >
 
 </head>
+
 
 <body>
 
@@ -87,17 +101,29 @@ if ($search != "") {
             Tourism<span>MS</span>
         </div>
 
+
         <div class="admin-right">
 
-            <a href="dashboard.php" class="dashboard-btn">
+            <a
+                href="dashboard.php"
+                class="dashboard-btn"
+            >
                 Dashboard
             </a>
 
-            <a href="users.php" class="users-btn">
+
+            <a
+                href="users.php"
+                class="users-btn"
+            >
                 Users
             </a>
 
-            <a href="logout.php" class="admin-logout">
+
+            <a
+                href="logout.php"
+                class="admin-logout"
+            >
                 Logout
             </a>
 
@@ -115,19 +141,24 @@ if ($search != "") {
 
     <div class="bookings-container">
 
+
+        <!-- ================= PAGE TITLE ================= -->
+
         <div class="page-title">
 
-            <h1>Manage Bookings</h1>
+            <h1>
+                Manage Bookings
+            </h1>
 
             <p>
-                View all tour bookings made by users.
+                View and manage all tour bookings made by users.
             </p>
 
         </div>
 
 
 
-        <!-- ================= SUCCESS / ERROR MESSAGE ================= -->
+        <!-- ================= MESSAGE ================= -->
 
         <?php if (isset($_GET['deleted'])) { ?>
 
@@ -149,7 +180,7 @@ if ($search != "") {
 
 
 
-        <!-- ================= SEARCH BOX ================= -->
+        <!-- ================= SEARCH ================= -->
 
         <div class="booking-search">
 
@@ -158,17 +189,22 @@ if ($search != "") {
                 <input
                     type="text"
                     name="search"
-                    placeholder="Search by name, email or package..."
+                    placeholder="Search by name, email, phone or package..."
                     value="<?php echo htmlspecialchars($search); ?>"
                 >
+
 
                 <button type="submit">
                     Search
                 </button>
 
+
                 <?php if ($search != "") { ?>
 
-                    <a href="bookings.php" class="clear-search">
+                    <a
+                        href="bookings.php"
+                        class="clear-search"
+                    >
                         Clear
                     </a>
 
@@ -190,25 +226,45 @@ if ($search != "") {
 
                     <tr>
 
-                        <th>ID</th>
+                        <th>
+                            ID
+                        </th>
 
-                        <th>Package</th>
+                        <th>
+                            Package
+                        </th>
 
-                        <th>Name</th>
+                        <th>
+                            Customer
+                        </th>
 
-                        <th>Email</th>
+                        <th>
+                            Email
+                        </th>
 
-                        <th>Phone</th>
+                        <th>
+                            Phone
+                        </th>
 
-                        <th>Travel Date</th>
+                        <th>
+                            Travel Date
+                        </th>
 
-                        <th>Persons</th>
+                        <th>
+                            Persons
+                        </th>
 
-                        <th>Message</th>
+                        <th>
+                            Message
+                        </th>
 
-                        <th>Booking Date</th>
+                        <th>
+                            Booking Date
+                        </th>
 
-                        <th>Action</th>
+                        <th>
+                            Action
+                        </th>
 
                     </tr>
 
@@ -219,98 +275,159 @@ if ($search != "") {
 
                     <?php
 
-                    if (mysqli_num_rows($result) > 0) {
+                    if (
+                        $result &&
+                        mysqli_num_rows($result) > 0
+                    ) {
 
-                        while ($booking = mysqli_fetch_assoc($result)) {
+                        while (
+                            $booking = mysqli_fetch_assoc($result)
+                        ) {
 
                     ?>
 
                     <tr>
 
+
+                        <!-- ID -->
+
                         <td>
-                            <?php echo $booking['id']; ?>
+
+                            <?php
+                            echo $booking['id'];
+                            ?>
+
                         </td>
 
 
+
+                        <!-- PACKAGE -->
+
                         <td>
+
                             <?php
                             echo htmlspecialchars(
                                 $booking['package_name']
                             );
                             ?>
+
                         </td>
 
 
+
+                        <!-- CUSTOMER -->
+
                         <td>
+
                             <?php
                             echo htmlspecialchars(
                                 $booking['name']
                             );
                             ?>
+
                         </td>
 
 
+
+                        <!-- EMAIL -->
+
                         <td>
+
                             <?php
                             echo htmlspecialchars(
                                 $booking['email']
                             );
                             ?>
+
                         </td>
 
 
+
+                        <!-- PHONE -->
+
                         <td>
+
                             <?php
                             echo htmlspecialchars(
                                 $booking['phone']
                             );
                             ?>
+
                         </td>
 
 
+
+                        <!-- TRAVEL DATE -->
+
                         <td>
+
                             <?php
                             echo htmlspecialchars(
                                 $booking['travel_date']
                             );
                             ?>
+
                         </td>
 
 
+
+                        <!-- PERSONS -->
+
                         <td>
+
                             <?php
                             echo htmlspecialchars(
                                 $booking['persons']
                             );
                             ?>
+
                         </td>
 
+
+
+                        <!-- MESSAGE -->
 
                         <td>
 
                             <?php
 
-                            echo !empty($booking['message'])
-                                ? htmlspecialchars(
+                            if (
+                                !empty(
                                     $booking['message']
                                 )
-                                : "No message";
+                            ) {
+
+                                echo htmlspecialchars(
+                                    $booking['message']
+                                );
+
+                            } else {
+
+                                echo "No message";
+
+                            }
 
                             ?>
 
                         </td>
 
 
+
+                        <!-- BOOKING DATE -->
+
                         <td>
+
                             <?php
                             echo htmlspecialchars(
                                 $booking['booking_date']
                             );
                             ?>
+
                         </td>
 
 
-                        <!-- ================= ACTION BUTTONS ================= -->
+
+                        <!-- ACTION -->
 
                         <td>
 
@@ -321,6 +438,7 @@ if ($search != "") {
                                 View
                             </a>
 
+
                             <a
                                 href="delete-booking.php?id=<?php echo $booking['id']; ?>"
                                 class="delete-btn"
@@ -330,6 +448,7 @@ if ($search != "") {
                             </a>
 
                         </td>
+
 
                     </tr>
 
@@ -343,10 +462,11 @@ if ($search != "") {
 
                     <tr>
 
-                        <td colspan="10" class="no-data">
-
+                        <td
+                            colspan="10"
+                            class="no-data"
+                        >
                             No bookings found.
-
                         </td>
 
                     </tr>
@@ -358,6 +478,7 @@ if ($search != "") {
             </table>
 
         </div>
+
 
     </div>
 
@@ -379,3 +500,11 @@ if ($search != "") {
 </body>
 
 </html>
+
+<?php
+
+if (isset($stmt)) {
+    mysqli_stmt_close($stmt);
+}
+
+?>
